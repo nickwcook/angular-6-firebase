@@ -1,0 +1,18 @@
+mat-card {
+    
+    &.page-card {
+        // margin-bottom: 25px;
+	}
+	
+	.mat-card-header-text {
+		margin: 0;
+	}
+	
+	mat-card-actions {
+		
+		button, .mat-button {
+			font-size: 14px;
+			font-weight: 400;
+		}
+	}
+}

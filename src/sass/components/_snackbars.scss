@@ -1,0 +1,13 @@
+.mat-snack-bar-container {
+	border-radius: 0 !important;
+	
+	button {
+        color: #fff;
+		background: transparent !important;
+		@include transition;
+		
+		&:hover {
+			color: $blue-primary !important;
+		}
+	}
+}
