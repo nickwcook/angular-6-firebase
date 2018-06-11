@@ -185,7 +185,7 @@ export class EditInvoiceComponent implements OnInit {
 			_this.deletedItems.push(item);
 
 			const itemId = item.itemId;
-			const itemIndex = _this.items.map(function(x){ return x.itemId; }).indexOf(itemId);
+			const itemIndex = _this.itemsData.data.map(function(x){ return x.itemId; }).indexOf(itemId);
 
 			_this.itemsData.data.splice(itemIndex, 1);
 
@@ -250,19 +250,13 @@ export class EditInvoiceComponent implements OnInit {
 	}
 
 	calcInvoiceTotals() {
-		let invoiceSubtotal = 0;
-		let invoiceTax = 0;
-		let invoiceTotal = 0;
+		this.invoice.subtotal = this.invoice.tax = this.invoice.total = 0;
 
 		this.items.forEach(item => {
-			invoiceSubtotal += item.subtotal;
-			invoiceTax += item.tax;
-			invoiceTotal += item.total;	
+			this.invoice.subtotal += item.subtotal;
+			this.invoice.tax += item.tax;
+			this.invoice.total += item.total;	
 		})
-
-		this.invoice.subtotal = invoiceSubtotal;
-		this.invoice.tax = invoiceTax;
-		this.invoice.total = invoiceTotal;
 	}
 
 	saveChanges() {
@@ -300,7 +294,7 @@ export class EditInvoiceComponent implements OnInit {
 
 		function deleteItems() {
 			for (let item of _this.deletedItems) {
-				_this.db.collection('/users').doc(_this.userId).collection('/invoices').doc(_this.invoice.id).collection('/items').doc(item.itemId.toString()).delete()
+				_this.db.collection('/users').doc(_this.userId).collection('/invoices').doc(_this.invoice.id).collection('/items').doc(item.id.toString()).delete()
 				.then(function() {
 					console.log('EditInvoicesave().deleteItems() - Item deleted from invoice - ' + '\'' + item.description + '\'');
 				})

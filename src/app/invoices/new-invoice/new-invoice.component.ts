@@ -204,12 +204,12 @@ export class NewInvoiceComponent implements OnInit {
 
 		this.itemsSelection.selected.forEach(item => {
 			const itemId = item.itemId;
-			const itemIndex = _this.items.map(function(x){ return x.itemId; }).indexOf(itemId);
+			const itemIndex = _this.itemsData.data.map(function(x){ return x.itemId; }).indexOf(itemId);
 
 			_this.itemsData.data.splice(itemIndex, 1);
-		})
 
-		this.itemsData = new MatTableDataSource<InvoiceItem>(this.itemsData.data);
+			_this.itemsData = new MatTableDataSource<InvoiceItem>(_this.itemsData.data);
+		})
 
 		this.items = this.itemsData.data;
 
@@ -235,7 +235,7 @@ export class NewInvoiceComponent implements OnInit {
 
 		this.newItemDialogRef.afterClosed().subscribe(item => {
 			if (item) {
-				item.id = this.items.length + 1;
+				item.itemId = this.items.length + 1;
 				this.items.push(item);
 				this.itemsData.data = this.items;
 
@@ -251,6 +251,8 @@ export class NewInvoiceComponent implements OnInit {
 	}
 
 	calcInvoiceTotals() {
+		this.invoiceTotals.subtotal = this.invoiceTotals.tax = this.invoiceTotals.total = 0;
+
 		this.items.forEach(item => {
 			this.invoiceTotals.subtotal += item.subtotal;
 			this.invoiceTotals.tax += item.tax;
