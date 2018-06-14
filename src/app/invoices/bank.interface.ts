@@ -3,5 +3,6 @@ export interface Bank {
     bankName: string;
     bankReference: string;
     accountNumber: string;
+    accountReference: string;
     sortCode: string;
 }

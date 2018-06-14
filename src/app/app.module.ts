@@ -141,6 +141,7 @@ import { SortByPipe } from './pipes/sort-by.pipe';
 // GLOBAL DIRECTIVES
 import { ParseIntDirective } from './directives/parse-int.directive';
 import { ParseFloatDirective } from './directives/parse-float.directive';
+import { NewPaymentComponent } from './invoices/dialogs/new-payment/new-payment.component';
 
 @NgModule({
 	
@@ -189,6 +190,7 @@ import { ParseFloatDirective } from './directives/parse-float.directive';
 			DownloadInvoicePdfDirective,
 			EmailInvoiceDirective,
 			DuplicateInvoiceDirective,
+			NewPaymentComponent,
 	],
 	
 	imports: [

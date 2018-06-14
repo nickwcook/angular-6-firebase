@@ -245,8 +245,8 @@ export class EditInvoiceComponent implements OnInit {
 		console.log('EditInvoice.postInvoice()');
 
 		this.invoice.posted = true;
-
-		// TODO: Prevent post if changesMade && !saved
+		
+		this.saveChanges();
 	}
 
 	calcInvoiceTotals() {
@@ -311,14 +311,40 @@ export class EditInvoiceComponent implements OnInit {
 		])
 		.then(function() {
 			console.log('EditInvoice.save().Promise.all() - All promises resolved');
-			_this.notifService.showNotification('Changes saved', 'Close');
+			
+			if (_this.invoice.posted) {
+				_this.notifService.showNotification('Invoice saved and posted', 'Close');
+			} else {
+				_this.notifService.showNotification('Changes saved', 'Close');
+			}
+
 			setTimeout(function() {
 				_this.router.navigateByUrl('/invoices/' + _this.invoice.id);
 			}, 500)
 		})
 		.catch(function(error) {
-			_this.notifService.showNotification('EditInvoice.save().Promise.all() - Error saving invoice: ' + error.message, 'Close');
-			console.error('EditInvoice.save().Promise.all() - Error saving invoice:', error);
+			_this.notifService.showNotification('Error saving invoice: ' + error.message, 'Close');
+			console.error('EditInvoice.save().Promise.all() - Error saving invoice:', error.message);
+		})
+	}
+
+	saveAndPost() {
+		let _this = this;
+
+		function postInvoice() {
+			_this.postInvoice();
+		}
+
+		return Promise.all([
+			postInvoice()
+		])
+		.then(function() {
+			console.log('InvoiceEdit.saveAndPost().Promise.all() - postInvoice promise resolved');
+			_this.saveChanges();
+		})
+		.catch(function(error) {
+			_this.notifService.showNotification('EditInvoice.saveAndPost().Promise.all() - Error saving invoice: ' + error.message, 'Close');
+			console.error('EditInvoice.saveAndPost().Promise.all() - Error saving invoice:', error.message);
 		})
 	}
 	

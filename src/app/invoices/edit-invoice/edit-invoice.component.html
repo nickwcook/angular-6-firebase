@@ -196,9 +196,11 @@
 
     <button mat-button (click)="cancel()">Cancel</button>
 
-    <button mat-button (click)="postInvoice()">Post Invoice</button>
+    <button mat-button (click)="postInvoice()" [disabled]="changesMade || !items.length">Post Invoice</button>
 
     <button mat-button (click)="saveChanges()" [disabled]="!changesMade || !items.length">Save Changes</button>
+    
+    <button mat-button (click)="saveAndPost()" [disabled]="!changesMade || !items.length">Save and Post</button>
 
   </mat-card-actions>
 
