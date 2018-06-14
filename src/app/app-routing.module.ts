@@ -8,6 +8,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
+import { NotificationsComponent } from './notifications/notifications/notifications.component';
+
 import { EditInvoiceComponent } from './invoices/edit-invoice/edit-invoice.component';
 import { NewInvoiceComponent } from './invoices/new-invoice/new-invoice.component';
 import { InvoiceListComponent } from './invoices/invoice-list/invoice-list.component';
@@ -43,6 +45,16 @@ const routes: Routes = [
 	{
 		path: 'register',
 		component: RegisterComponent
+	},
+	{
+		path: 'notifications',
+		component: NotificationsComponent,
+            canActivate: [CanActivateRouteGuard]
+	},
+	{
+		path: 'notifications/:id',
+		component: NotificationsComponent,
+            canActivate: [CanActivateRouteGuard]
 	},
 	{
 		path: 'invoices/new',

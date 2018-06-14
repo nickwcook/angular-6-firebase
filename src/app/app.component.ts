@@ -1,8 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { fadeInAnimation } from "@app/router-animations";
 import { MatSnackBar } from '@angular/material';
+import { Observable } from 'rxjs';
+import { SortByPipe } from './pipes/sort-by.pipe';
 
 import { AngularFirestore } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
@@ -13,18 +15,13 @@ import { AuthService } from './services/auth.service';
 import { NotificationsService } from './services/notifications.service';
 import { UserService } from './services/user.service';
 import { TaxCodesService } from './services/tax-codes.service';
-import { SortByPipe } from './pipes/sort-by.pipe';
 
-import { fadeInAnimation } from "@app/router-animations";
+import { NotificationsComponent } from './notifications/notifications/notifications.component';
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss'],
-      // animations: [
-      //       fadeInAnimation
-      // ],
-      // host: { '[@fadeInAnimation]': '' }
 })
 
 export class AppComponent {
@@ -47,7 +44,7 @@ export class AppComponent {
         this.notifService.notification.subscribe(message => {
 			snackbar.open(message, null, {
 				duration: 3000			  
-			});
+			})
 		})
 		
 	}
@@ -71,6 +68,11 @@ export class AppComponent {
 	
 	signOut() {
         this.authService.signOut();
+	}
+
+	viewNotification(notification) {
+		this.notifService.selectedNotification = notification;
+		this.router.navigateByUrl(`notifications/${notification.id}`);
 	}
 	
 	updateProfile() {

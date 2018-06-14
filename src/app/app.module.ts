@@ -79,6 +79,10 @@ import { DashboardComponent } from './dashboard/dashboard.component'
 	// ACCOUNT
 	import { LoginComponent } from './login/login.component'
 	import { RegisterComponent } from './register/register.component'
+	import { VerifyEmailDialogComponent } from './register/dialogs/verify-email-dialog/verify-email-dialog.component';
+
+	// NOTIFICATIONS
+	import { NotificationsComponent } from './notifications/notifications/notifications.component';
 
 	// INVOICES
 		import { NewItemDialogComponent } from './invoices/dialogs/new-item-dialog/new-item-dialog.component';
@@ -147,7 +151,10 @@ import { ParseFloatDirective } from './directives/parse-float.directive';
         DashboardComponent,
 		
         LoginComponent,
-        RegisterComponent,
+		RegisterComponent,
+			VerifyEmailDialogComponent,
+		
+		NotificationsComponent,
 		
 		NewItemDialogComponent,
 		EditInvoiceComponent,
@@ -181,7 +188,7 @@ import { ParseFloatDirective } from './directives/parse-float.directive';
 			// Invoices
 			DownloadInvoicePdfDirective,
 			EmailInvoiceDirective,
-			DuplicateInvoiceDirective
+			DuplicateInvoiceDirective,
 	],
 	
 	imports: [
@@ -245,6 +252,10 @@ import { ParseFloatDirective } from './directives/parse-float.directive';
 	],
 	
 	entryComponents: [
+
+		// REGISTER
+		VerifyEmailDialogComponent,
+
 		// CONTACTS
 			// View Contact
 			DeleteContactDialogComponent,
