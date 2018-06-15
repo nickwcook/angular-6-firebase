@@ -5,7 +5,7 @@ import { MatDialog, MatDialogRef, MatPaginator, MatTableDataSource, MatSort } fr
 import { of as observableOf,  Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, snapshotChanges } from 'angularfire2/database';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 
 import { AuthService } from '@app/services/auth.service';
@@ -16,6 +16,7 @@ import { Invoice } from '../invoice.interface';
 import { InvoiceItem } from '../invoice-item.interface';
 import { InvoicePayment } from '../invoice-payment.interface';
 
+import { NewPaymentDialogComponent } from './dialogs/new-payment-dialog/new-payment-dialog.component';
 import { DeleteInvoiceDialogComponent } from './dialogs/delete-invoice-dialog.component';
 
 @Component({
@@ -47,6 +48,8 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 
 	paymentsCollection: AngularFirestoreCollection<InvoicePayment>;	
 	payments$: Observable<InvoicePayment[]>;
+	payments: InvoicePayment[];
+	totalPaid: number;
 	paymentsData = new MatTableDataSource<InvoicePayment>();
 
 	paymentsTableColumns = [
@@ -57,6 +60,7 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 	]
 
 	deleteDialogRef: MatDialogRef<DeleteInvoiceDialogComponent>;
+	newPaymentDialogRef: MatDialogRef<NewPaymentDialogComponent>;
 
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
@@ -77,24 +81,47 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 			}),
 			catchError(err => observableOf(null))
 		)
+
+		this.payments$ = this.invoicesService.invoicesCollection.doc(this.invoice.id).collection('/payments').snapshotChanges().pipe(
+			map(changes => {
+				return changes.map(a => {
+					const data = a.payload.doc.data() as InvoicePayment;
+					data.id = a.payload.doc.id;
+					return data;
+				})
+			})
+		)
 		
 	}
 
 	ngOnInit() {
-
+		
 	}
 	
 	ngAfterViewInit() {
-		this.getItems$().subscribe(
+		this.getItems().subscribe(
 			data => {
 				this.itemsData.data = data;
 			}
 		)
+
         this.itemsData.paginator = this.paginator;
-		this.itemsData.sort = this.sort;
+		this.itemsData.sort = this.itemsData.sort = this.sort;
+		
+		this.getPayments().subscribe(
+			data => {
+				this.payments = data;
+				this.paymentsData.data = data;
+
+				this.calcPaymentTotals(null);
+			}
+		)
+
+        this.paymentsData.paginator = this.paginator;
+		this.paymentsData.sort = this.paymentsData.sort = this.sort;
 	}
 	
-	getItems$() {
+	getItems() {
 		return this.items$;
 	}
 	
@@ -102,8 +129,74 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 		console.log('ViewInvoice.editItem( ' + '\'' + item.description + '\'' + ' )', item);
 	}
 
+	getPayments() {
+		return this.payments$;
+	}
+
 	addPayment() {
+		let _this = this;
+
 		console.log('ViewInvoice.addPayment()');
+		
+		this.newPaymentDialogRef = this.dialog.open(NewPaymentDialogComponent, {
+			hasBackdrop: true,
+			data: {
+				userId: _this.userId,
+				invoice: _this.invoice,
+				payments: _this.payments
+			}
+		})
+
+		this.newPaymentDialogRef.afterClosed().subscribe(payment => {
+			if (payment) {
+				_this.payments.push(payment);
+				_this.paymentsData.data = _this.payments;
+
+				_this.db.collection('/users').doc(_this.userId).collection('/invoices').doc(_this.invoice.id).collection('/payments').doc(payment.id).set(payment)
+					.then(function(docRef) {
+						console.log('ViewInvoice.addPayment() - New payment saved:', payment);
+						_this.notifService.showNotification('Payment added', 'Close');
+					})
+					.catch(function(error) {
+						console.error('ViewInvoice.addPayment() - Error saving new payment:', error.message);
+						_this.notifService.showNotification(`Error adding new payment: ${error.message}`, 'Close');
+					})
+
+				_this.calcPaymentTotals(payment);
+			}
+		})
+	}
+
+	calcPaymentTotals(newPayment) {
+		let _component = this;
+
+		this.totalPaid = 0;
+
+		this.payments.forEach(payment => {
+			this.totalPaid += payment.amount;
+		})
+
+		console.log(`ViewInvoice.totalPaid: ${this.totalPaid}`);
+		console.log(`ViewInvoice.invoice.total: ${this.invoice.total}`);
+
+		if (+this.totalPaid.toFixed(2) === +this.invoice.total.toFixed(2)) {
+
+
+
+			this.invoice.paid = true;
+
+			if (newPayment) {
+				_component.db.collection('/users').doc(_component.userId).collection('/invoices').doc(_component.invoice.id).set(_component.invoice)
+					.then(function() {
+						console.log('ViewInvoice.calcPaymentTotals() - Invoice fully-paid and saved');
+						// _component.notifService.showNotification('Invoice fully-paid', 'Close');
+					})
+					.catch(function(error) {
+						console.log(`ViewInvoice.calcPaymentTotals() - Error saving fully-paid invoice: ${error.message}`);
+						_component.notifService.showNotification(`Error saving fully-paid invoice: ${error.message}`, 'Close');
+					})
+			}
+		}
 	}
 	
 	editInvoice() {

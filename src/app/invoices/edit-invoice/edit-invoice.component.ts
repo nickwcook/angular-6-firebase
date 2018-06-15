@@ -96,14 +96,14 @@ export class EditInvoiceComponent implements OnInit {
 	ngOnInit() {
 		this.compareModels();
 
-		this.getTaxCodes$()
+		this.getTaxCodes()
 			.subscribe(
 				data => {
 					this.taxCodes = data;
-					console.log('EditInvoice.getTaxCodes$.subscribe().data:', data);
+					console.log('EditInvoice.getTaxCodes.subscribe().data:', data);
 				},
 				error => {
-					console.error('EditInvoice.getTaxCodes$.subscribe() - Error retrieving data:', error);
+					console.error('EditInvoice.getTaxCodes.subscribe() - Error retrieving data:', error);
 				}
 			)
 	}
@@ -112,7 +112,7 @@ export class EditInvoiceComponent implements OnInit {
 		this.itemsData.sort = this.sort;
 	}
 
-	getTaxCodes$() {
+	getTaxCodes() {
 		return this.taxCodes$;
 	}
 

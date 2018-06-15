@@ -101,6 +101,7 @@ import { DashboardComponent } from './dashboard/dashboard.component'
 		// ViewInvoice
 		import { ViewInvoiceComponent } from './invoices/view-invoice/view-invoice.component';
 			// Dialogs
+			import { NewPaymentDialogComponent } from './invoices/view-invoice/dialogs/new-payment-dialog/new-payment-dialog.component';
 			import { DeleteInvoiceDialogComponent } from './invoices/view-invoice/dialogs/delete-invoice-dialog.component';
 			// Directives
 			import { DownloadInvoicePdfDirective } from './invoices/view-invoice/directives/download-invoice-pdf/download-invoice-pdf.directive';
@@ -127,6 +128,7 @@ import { DashboardComponent } from './dashboard/dashboard.component'
 
 // SERVICES
 import { AuthService } from './services/auth.service';
+import { BankService } from './services/bank.service';
 import { NotificationsService } from './services/notifications.service';
 import { UserService } from './services/user.service';
 import { TaxCodesService } from './services/tax-codes.service';
@@ -141,7 +143,6 @@ import { SortByPipe } from './pipes/sort-by.pipe';
 // GLOBAL DIRECTIVES
 import { ParseIntDirective } from './directives/parse-int.directive';
 import { ParseFloatDirective } from './directives/parse-float.directive';
-import { NewPaymentComponent } from './invoices/dialogs/new-payment/new-payment.component';
 
 @NgModule({
 	
@@ -163,7 +164,8 @@ import { NewPaymentComponent } from './invoices/dialogs/new-payment/new-payment.
 			CancelChangesDialogComponent,
         NewInvoiceComponent,
         InvoiceListComponent,		
-        ViewInvoiceComponent,		
+        ViewInvoiceComponent,
+			NewPaymentDialogComponent,
         	DeleteInvoiceDialogComponent,
 		
         NewExpenseComponent,
@@ -190,7 +192,6 @@ import { NewPaymentComponent } from './invoices/dialogs/new-payment/new-payment.
 			DownloadInvoicePdfDirective,
 			EmailInvoiceDirective,
 			DuplicateInvoiceDirective,
-			NewPaymentComponent,
 	],
 	
 	imports: [
@@ -265,6 +266,7 @@ import { NewPaymentComponent } from './invoices/dialogs/new-payment/new-payment.
 		// INVOICES
 			NewItemDialogComponent,
 			// View Invoice
+			NewPaymentDialogComponent,
 			DeleteInvoiceDialogComponent,
 			// Edit Invoice
 			EditReferenceDialogComponent,
@@ -277,6 +279,7 @@ import { NewPaymentComponent } from './invoices/dialogs/new-payment/new-payment.
 	
 	providers: [
 		AuthService,
+		BankService,
 		NotificationsService,
 		UserService,
         TaxCodesService,
