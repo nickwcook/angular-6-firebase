@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ViewChildren, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef, MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 
@@ -26,8 +26,6 @@ import { DeleteInvoiceDialogComponent } from './dialogs/delete-invoice-dialog.co
 })
 
 export class ViewInvoiceComponent implements OnInit, AfterViewInit {
-	
-	userId: string;
 
 	invoiceId: string;
 	invoice: Invoice;
@@ -62,12 +60,10 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 	deleteDialogRef: MatDialogRef<DeleteInvoiceDialogComponent>;
 	newPaymentDialogRef: MatDialogRef<NewPaymentDialogComponent>;
 
-	@ViewChild(MatPaginator) paginator: MatPaginator;
-	@ViewChild(MatSort) sort: MatSort;
+	@ViewChild(MatPaginator) itemsPaginator: MatPaginator;
+	@ViewChild(MatSort) itemsSort: MatSort;
 
 	constructor(private authService: AuthService, private notifService: NotificationsService, private invoicesService: InvoicesService, private db: AngularFirestore, private route: ActivatedRoute, private dialog: MatDialog) {
-		
-		this.userId = this.authService.user.uid;
 		
 		this.invoice = this.invoicesService.selectedInvoice;
 		
@@ -89,36 +85,38 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 					data.id = a.payload.doc.id;
 					return data;
 				})
-			})
+			}),
+			catchError(err => observableOf(null))
 		)
 		
 	}
 
 	ngOnInit() {
-		
-	}
-	
-	ngAfterViewInit() {
 		this.getItems().subscribe(
 			data => {
 				this.itemsData.data = data;
+			},
+			error => {
+				console.error(`ViewInvoice - Error subscribing to items in getItems(): ${error}`);
 			}
 		)
-
-        this.itemsData.paginator = this.paginator;
-		this.itemsData.sort = this.itemsData.sort = this.sort;
 		
 		this.getPayments().subscribe(
 			data => {
 				this.payments = data;
 				this.paymentsData.data = data;
 
-				this.calcPaymentTotals(null);
+				this.calcPaymentTotals();
+			},
+			error => {
+				console.error(`ViewInvoice - Error subscribing to payments in getPayments(): ${error}`);
 			}
 		)
-
-        this.paymentsData.paginator = this.paginator;
-		this.paymentsData.sort = this.paymentsData.sort = this.sort;
+	}
+	
+	ngAfterViewInit() {
+		this.itemsData.paginator = this.itemsPaginator;
+		this.itemsData.sort = this.itemsSort;
 	}
 	
 	getItems() {
@@ -126,7 +124,7 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 	}
 	
 	editItem(item) {
-		console.log('ViewInvoice.editItem( ' + '\'' + item.description + '\'' + ' )', item);
+		console.log(`ViewInvoice.editItem('${item.description}')`, item);
 	}
 
 	getPayments() {
@@ -141,7 +139,7 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 		this.newPaymentDialogRef = this.dialog.open(NewPaymentDialogComponent, {
 			hasBackdrop: true,
 			data: {
-				userId: _this.userId,
+				userId: _this.authService.user.uid,
 				invoice: _this.invoice,
 				payments: _this.payments
 			}
@@ -152,13 +150,13 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 				_this.payments.push(payment);
 				_this.paymentsData.data = _this.payments;
 
-				_this.db.collection('/users').doc(_this.userId).collection('/invoices').doc(_this.invoice.id).collection('/payments').doc(payment.id).set(payment)
+				_this.db.collection('/users').doc(_this.authService.user.uid).collection('/invoices').doc(_this.invoice.id).collection('/payments').doc(payment.id).set(payment)
 					.then(function(docRef) {
 						console.log('ViewInvoice.addPayment() - New payment saved:', payment);
 						_this.notifService.showNotification('Payment added', 'Close');
 					})
 					.catch(function(error) {
-						console.error('ViewInvoice.addPayment() - Error saving new payment:', error.message);
+						console.error(`ViewInvoice.addPayment() - Error saving new payment: ${error.message}`);
 						_this.notifService.showNotification(`Error adding new payment: ${error.message}`, 'Close');
 					})
 
@@ -167,7 +165,7 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 		})
 	}
 
-	calcPaymentTotals(newPayment) {
+	calcPaymentTotals(newPayment?) {
 		let _component = this;
 
 		this.totalPaid = 0;
@@ -176,17 +174,16 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 			this.totalPaid += payment.amount;
 		})
 
+		this.invoice.remainderDue = this.invoice.total - this.totalPaid;
+
 		console.log(`ViewInvoice.totalPaid: ${this.totalPaid}`);
 		console.log(`ViewInvoice.invoice.total: ${this.invoice.total}`);
 
 		if (+this.totalPaid.toFixed(2) === +this.invoice.total.toFixed(2)) {
-
-
-
 			this.invoice.paid = true;
 
 			if (newPayment) {
-				_component.db.collection('/users').doc(_component.userId).collection('/invoices').doc(_component.invoice.id).set(_component.invoice)
+				_component.db.collection('/users').doc(_component.authService.user.uid).collection('/invoices').doc(_component.invoice.id).set(_component.invoice)
 					.then(function() {
 						console.log('ViewInvoice.calcPaymentTotals() - Invoice fully-paid and saved');
 						// _component.notifService.showNotification('Invoice fully-paid', 'Close');
@@ -210,14 +207,14 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 
 		this.invoice.posted = false;
 
-		this.db.collection('users').doc(this.userId).collection('invoices').doc(this.invoice.id).set(this.invoice)
+		this.db.collection('users').doc(this.authService.user.uid).collection('invoices').doc(this.invoice.id).set(this.invoice)
 			.then(function() {
 				console.log('ViewInvoice.unpostInvoice() - Invoice successfully unposted');
 				_this.notifService.showNotification('Invoice unposted', 'Close');
 			})
 			.catch(function(error) {
-				console.log('ViewInvoice.unpostInvoice() - Error unposting invoice: ' + error.message);
-				_this.notifService.showNotification('Error unposting invoice: ' + error.message, 'Close');
+				console.log(`ViewInvoice.unpostInvoice() - Error unposting invoice: ${error.message}`);
+				_this.notifService.showNotification(`Error unposting invoice: ${error.message}`, 'Close');
 			})
 	}
 	
@@ -227,7 +224,7 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 		this.deleteDialogRef = this.dialog.open(DeleteInvoiceDialogComponent, {
 			hasBackdrop: true,
 			data: {
-				userId: this.userId,
+				userId: this.authService.user.uid,
 				invoiceId: this.invoice.id
 			}
 		})

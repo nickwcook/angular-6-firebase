@@ -21,15 +21,15 @@ export class LoginComponent implements OnInit {
     email: string;
     password: string;
 
-	constructor(public db: AngularFirestore, private authService: AuthService, private router: Router) { }
+	constructor(public db: AngularFirestore, public authService: AuthService, private router: Router) { }
 	
-	signIn() {
-		this.authService.signIn(this.email, this.password);
-	}
+	// signIn() {
+	// 	this.authService.signIn(this.email, this.password);
+	// }
     
-    signInGoogle() {
-        this.authService.signInGoogle();
-    }
+    // signInGoogle() {
+    //     this.authService.signInGoogle();
+    // }
 
 	ngOnInit() {
 		

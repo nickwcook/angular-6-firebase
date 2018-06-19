@@ -37,7 +37,7 @@ export class EditReferenceDialogComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		console.log('EditReferenceDialog.currentReference: ' + this.reference);
+		console.log(`EditReferenceDialog.currentReference: ${this.reference}`);
 	}
 
 	saveChange() {

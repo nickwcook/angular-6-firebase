@@ -36,7 +36,7 @@ export class DeleteExpenseDialogComponent implements OnInit {
   }
 
   confirmDeletion() {
-    console.log('Try confirmDeletion() - User #' + this.data.userId + ', Expense #' + this.data.expenseId);
+    console.log(`Try confirmDeletion() - User #${this.data.userId}, Expense #${this.data.expenseId}`);
 
     let _this = this;
 
@@ -47,8 +47,9 @@ export class DeleteExpenseDialogComponent implements OnInit {
         console.log('Expense successfully deleted');
         _this.router.navigateByUrl('/expenses/all');
         _this.notifService.showNotification('Expense successfully deleted', 'Close');
-      }).catch(function(error) {
-        console.error('Error deleting expense:', error);
+      })
+      .catch(function(error) {
+        console.error(`Error deleting expense: ${error}`);
       })
   }
 

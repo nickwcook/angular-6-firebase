@@ -54,7 +54,7 @@ export class ExpenseListComponent implements OnInit, AfterViewInit {
 					}
 				},
 				error => {
-					console.error('ExpenseList.getExpenses$().subscribe() - Error getting expenses:', error);
+					console.error(`ExpenseList.getExpenses$().subscribe() - Error getting expenses: ${error}`);
 				}
             )
 	}
@@ -70,7 +70,7 @@ export class ExpenseListComponent implements OnInit, AfterViewInit {
 
     viewExpense(expense) {
         this.expensesService.selectedExpense = expense;
-        this.router.navigateByUrl('/expenses/' + expense.id);
+        this.router.navigateByUrl(`/expenses/${expense.id}`);
     }
     
 }

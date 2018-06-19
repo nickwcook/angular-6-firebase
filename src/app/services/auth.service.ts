@@ -37,15 +37,15 @@ export class AuthService {
                     console.log('AuthService - Signed In');
                     _component.isAuthenticated = true;
                     _component.router.navigateByUrl('/dashboard');
-                    _component.notifService.showNotification('Logged in as ' + email, 'Close');
+                    _component.notifService.showNotification(`Logged in as ${email}`, 'Close');
                     _component.user = firebase.auth().currentUser;
                 } else {
                     _component.notifService.showNotification('You must verify your email using the link sent to your email address before signing in', 'Close');
                 }
             })
-            .catch(err => {
-                console.log('AuthService - Sign-In Error: ', err.message);
-				_component.notifService.showNotification('ERROR: ' + err.message, null);
+            .catch(error => {
+                console.error(`AuthService.signIn() - Error signing in: ${error.message}`);
+				_component.notifService.showNotification(`Sign-In Error: ${error.message}`, null);
             })
         
 //        firebase.auth().onAuthStateChanged(user => {
@@ -93,14 +93,14 @@ export class AuthService {
                             hasBackdrop: true
                         })
                     })
-                    .catch(function(err) {
-                        console.error('AuthService.register() - Error sending verification email:', err.message);
-                        _component.notifService.showNotification('Error sending verification email: ' + err.message, null);
+                    .catch(function(error) {
+                        console.error(`AuthService.register() - Error sending verification email: ${error.message}`);
+                        _component.notifService.showNotification(`Error sending verification email: ${error.message}`, null);
                     })
              })
-             .catch(err => {
-                console.log('Registration Error: ', err.message);
-				this.notifService.showNotification('ERROR: ' + err.message, null);
+             .catch(error => {
+                console.log(`AuthService.register() - Error registering account: ${error.message}`);
+				this.notifService.showNotification(`Registration Error: ${error.message}`, null);
             })
     }
 

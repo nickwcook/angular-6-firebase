@@ -36,7 +36,7 @@ export class DeleteInvoiceDialogComponent implements OnInit {
   }
 
   confirmDeletion() {
-    console.log('Try confirmDeletion() - User #' + this.data.userId + ', Invoice #' + this.data.invoiceId);
+    console.log(`Try confirmDeletion() - User #${this.data.userId}, Invoice #${this.data.invoiceId}`);
 
     let _this = this;
 
@@ -48,7 +48,7 @@ export class DeleteInvoiceDialogComponent implements OnInit {
         _this.router.navigateByUrl('/invoices/all');
         _this.notifService.showNotification('Invoice successfully deleted', 'Close');
       }).catch(function(error) {
-        console.error('Error deleting invoice:', error);
+        console.error(`Error deleting invoice: ${error.message}`);
       })
   }
 

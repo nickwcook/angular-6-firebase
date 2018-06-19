@@ -5,11 +5,15 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './bank.component.html',
   styleUrls: ['./bank.component.scss']
 })
+
 export class BankComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+
+  }
 
   ngOnInit() {
+
   }
 
 }

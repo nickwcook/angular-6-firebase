@@ -49,7 +49,7 @@ export class ContactListComponent implements OnInit, AfterViewInit {
 					}
 				},
 				error => {
-					console.log('ContactList.getContacts().subscribe() - Error getting contacts:', error);
+					console.log(`ContactList.getContacts().subscribe() - Error getting contacts: ${error}`);
 				}
 			)
 	}
@@ -65,7 +65,7 @@ export class ContactListComponent implements OnInit, AfterViewInit {
 
 	viewContact(contact) {
 		this.contactsService.selectedContact = contact;
-		this.router.navigateByUrl('/contacts/' + contact.id);
+		this.router.navigateByUrl(`/contacts/${contact.id}`);
 	}
 
 }

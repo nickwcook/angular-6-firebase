@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
 import { of as observableOf, Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -14,7 +13,6 @@ const httpOptions = {
 }
 
 @Injectable()
-
 export class UserService {
 	
 	titles: any[];
@@ -30,7 +28,8 @@ export class UserService {
 			'Dr',
 			'Prof'
 		]
-		
+
+		this.user.authService.user;
 	}
 	
     updateProfile() {
@@ -38,12 +37,13 @@ export class UserService {
         this.user.updateProfile({
             displayName: "Nick Cook",
             photoURL: photoUrl
-        }).then(function() {
+		})
+		.then(function() {
             this.notifService.showNotification('Profile updated', 'Close');
-			console.log('User:');
-			console.log(this.user);
-        }).catch(function(error) {
-            this.notifService.showNotification('ERROR: ' + error, null);
+			console.log('User:', this.user);
+		})
+		.catch(function(error) {
+            this.notifService.showNotification(`UserService.updateProfile() - Error updating profile: ${error}`, null);
         })
     }
 

@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 
 import { of as observableOf,  Observable } from 'rxjs';
@@ -13,17 +12,14 @@ import { Expense } from '@app/expenses/expense.interface';
 @Injectable()
 export class ExpensesService {
 
-  userId: string;
-
   selectedExpense: Expense;
 
   expensesCollection: AngularFirestoreCollection<Expense>;
   expenses$: Observable<Expense[]>;
 
   constructor(private db: AngularFirestore, private authService: AuthService) {
-    this.userId = this.authService.user.uid;
 
-    this.expensesCollection = this.db.collection('/users').doc(this.userId).collection('/expenses');
+    this.expensesCollection = this.db.collection('/users').doc(this.authService.user.uid).collection('/expenses');
 
     this.expenses$ = this.expensesCollection.snapshotChanges().pipe(
       map(changes => {

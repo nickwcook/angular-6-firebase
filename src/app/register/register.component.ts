@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import * as firebase from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AuthService } from '../services/auth.service';
+import { NotificationsService } from '../services/notifications.service';
 
 @Component({
 	selector: 'app-register',
@@ -18,7 +19,7 @@ export class RegisterComponent implements OnInit {
 	password: string;
 	password2: string;
 
-	constructor(private firebaseAuth: AngularFireAuth, private authService: AuthService, private router: Router) {
+	constructor(private firebaseAuth: AngularFireAuth, private authService: AuthService, private notifService: NotificationsService, private router: Router) {
 		
 	}
 
@@ -31,6 +32,7 @@ export class RegisterComponent implements OnInit {
 			this.authService.register(this.email, this.password);
 		} else {
 			console.log('Passwords do not match');
+			this.notifService.showNotification('The passwords you have entered do not match', 'Close');
 		}
 	}
 

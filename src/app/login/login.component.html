@@ -24,13 +24,13 @@
 
 			</mat-form-field>
 
-			<button mat-raised-button (click)="signIn()" type="submit" class="primary width-100pc">Sign In</button>
+			<button mat-raised-button (click)="authService.signIn(email, password)" type="submit" class="primary width-100pc">Sign In</button>
 			
 		</div>
 		
 		<div fxLayoutAlign="center center">
 		
-		    <a (click)="signInGoogle()" class="secondary-link">Sign in with Google</a>
+		    <a (click)="authService.signInGoogle()" class="secondary-link">Sign in with Google</a>
 		
         </div>
 			

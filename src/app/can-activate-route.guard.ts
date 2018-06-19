@@ -12,8 +12,9 @@ export class CanActivateRouteGuard implements CanActivate {
     
     canActivate (
         route: ActivatedRouteSnapshot,
-        state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-        return this.auth.isAuthenticated;
-    }
+        state: RouterStateSnapshot
+    ): Observable<boolean> | Promise<boolean> | boolean {
+            return this.auth.isAuthenticated;
+        }
     
 }

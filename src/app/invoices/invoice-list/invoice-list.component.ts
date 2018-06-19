@@ -1,6 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { fadeInAnimation } from '@app/router-animations';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
@@ -17,15 +16,9 @@ import { AuthService } from '@app/services/auth.service';
 	selector: 'app-invoice-list',
 	templateUrl: './invoice-list.component.html',
 	styleUrls: ['./invoice-list.component.scss'],
-      // animations: [
-      //       fadeInAnimation
-      // ],
-      // host: { '[@fadeInAnimation]': '' }
 })
 
 export class InvoiceListComponent implements OnInit, AfterViewInit {
-    
-	userId: string;
 
 	invoices: Invoice[];
 
@@ -40,9 +33,8 @@ export class InvoiceListComponent implements OnInit, AfterViewInit {
 		'date',
 		'contactName',
 		'description',
-		'subtotal',
-		'tax',
-		'total'
+		'total',
+		'remainderDue'
 	]
 
 	@ViewChild(MatPaginator) paginator: MatPaginator;
@@ -101,7 +93,7 @@ export class InvoiceListComponent implements OnInit, AfterViewInit {
 
 	viewInvoice(invoice) {
 		this.invoicesService.selectedInvoice = invoice;
-		this.router.navigateByUrl('/invoices/' + invoice.id);
+		this.router.navigateByUrl(`/invoices/${invoice.id}`);
 	}
 
 }

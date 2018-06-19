@@ -97,7 +97,7 @@ export class DashboardComponent implements OnInit {
 					}
 				},
 				error => {
-					console.error('Dashboard.invoicesService.getInvoices$() - Error getting invoices:', error);
+					console.error(`Dashboard.invoicesService.getInvoices$() - Error getting invoices: ${error}`);
 				}
 			)
 
@@ -112,7 +112,7 @@ export class DashboardComponent implements OnInit {
 					}
 				},
 				error => {
-					console.error('Dashboard.expensesService.getExpenses$() - Error getting expenses:', error);
+					console.error(`Dashboard.expensesService.getExpenses$() - Error getting expenses: ${error}`);
 				}
 			)
 
@@ -127,7 +127,7 @@ export class DashboardComponent implements OnInit {
 					}
 				},
 				error => {
-					console.error('Dashboard.contactsService.getContacts$() - Error getting contacts:', error);
+					console.error(`Dashboard.contactsService.getContacts$() - Error getting contacts: ${error}`);
 				}
 			)
 	}

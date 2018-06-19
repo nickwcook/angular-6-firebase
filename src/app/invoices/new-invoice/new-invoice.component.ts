@@ -38,8 +38,6 @@ import { ExpensesService } from '@app/services/expenses.service';
 
 export class NewInvoiceComponent implements OnInit {
 
-	userId: string;
-
 	contacts: Contact[];
 	contacts$: Observable<Contact[]>;
 	selectedContactId = '';
@@ -87,8 +85,6 @@ export class NewInvoiceComponent implements OnInit {
 	maxDate = moment();
 
 	constructor(private router: Router, private authService: AuthService, private notifService: NotificationsService, private contactsService: ContactsService, private expensesService: ExpensesService, private invoicesService: InvoicesService, public taxCodesService: TaxCodesService, private db: AngularFirestore, private formBuilder: FormBuilder, public dialog: MatDialog) {
-		this.userId = this.authService.user.uid;
-
 		this.contacts$ = this.contactsService.contactsCollection.valueChanges();
 		this.expenses$ = this.expensesService.expensesCollection.valueChanges();
 		this.invoices$ = this.invoicesService.invoicesCollection.valueChanges();
@@ -104,12 +100,12 @@ export class NewInvoiceComponent implements OnInit {
 					console.log('NewInvoice.contacts:', data);
 
 					this.selectedContactId = this.contacts[0].id;
-					console.log('selectedContactId: ' + this.selectedContactId);
+					console.log(`selectedContactId: ${this.selectedContactId}`);
 
 					this.getSelectedContact();
 				},
 				error => {
-					console.error('NewInvoice - Error getting contacts via subscribe() method:', error);
+					console.error(`NewInvoice - Error getting contacts via subscribe() method: ${error}`);
 				}
 			)
 			
@@ -120,7 +116,7 @@ export class NewInvoiceComponent implements OnInit {
 					console.log('NewInvoice.taxCodes:', data);
 				},
 				error => {
-					console.error('NewInvoice - Error getting taxCodes via subscribe() method:', error);
+					console.error(`NewInvoice - Error getting taxCodes via subscribe() method: ${error}`);
 				}
 			)
 
@@ -147,7 +143,7 @@ export class NewInvoiceComponent implements OnInit {
 					}
 				},
 				error => {
-					console.error('NewInvoice.invoicesService.getInvoices$() - Error getting invoices$:', error);
+					console.error(`NewInvoice.invoicesService.getInvoices$() - Error getting invoices$: ${error.message}`);
 				}
 			)
 	}
@@ -189,7 +185,7 @@ export class NewInvoiceComponent implements OnInit {
 	}
 
 	toggleSelectAllItems() {
-		console.log('NewInvoice.toggleSelectAllItems() - allItemsSelected(): ' + this.allItemsSelected());
+		console.log(`NewInvoice.toggleSelectAllItems() - allItemsSelected(): ${this.allItemsSelected()}`);
 		this.allItemsSelected() ? this.itemsSelection.clear() : this.itemsData.data.forEach(item => {
 			this.itemsSelection.select(item);
 		})
@@ -204,7 +200,9 @@ export class NewInvoiceComponent implements OnInit {
 
 		this.itemsSelection.selected.forEach(item => {
 			const itemId = item.itemId;
-			const itemIndex = _this.itemsData.data.map(function(x){ return x.itemId; }).indexOf(itemId);
+			const itemIndex = _this.itemsData.data.map(function(x) {
+				return x.itemId; 
+			}).indexOf(itemId);
 
 			_this.itemsData.data.splice(itemIndex, 1);
 
@@ -263,8 +261,8 @@ export class NewInvoiceComponent implements OnInit {
 	save() {
 		let _this = this;
 		
-		let newDocRef = _this.db.collection('/users').doc(_this.userId).collection('/invoices').ref.doc().id;
-		console.log('newDocRef: ' + newDocRef);
+		let newDocRef = _this.db.collection('/users').doc(_this.authService.user.uid).collection('/invoices').ref.doc().id;
+		console.log(`newDocRef: ${newDocRef}`);
 		
 		this.invoice = {
 			id: newDocRef,
@@ -276,41 +274,30 @@ export class NewInvoiceComponent implements OnInit {
 			subtotal: +this.invoiceTotals.subtotal,
 			tax: +this.invoiceTotals.tax,
 			total: +this.invoiceTotals.total,
+			remainderDue: +this.invoiceTotals.total,
 			posted: false,
 			paid: false
 		}
 
 		function saveMainDetails() {
-			_this.db.collection('/users').doc(_this.userId).collection('/invoices').doc(newDocRef).set(_this.invoice)
+			_this.db.collection('/users').doc(_this.authService.user.uid).collection('/invoices').doc(newDocRef).set(_this.invoice)
 				.then(function(docRef) {
 					console.log('NewInvoice.save() - Main details saved:', _this.invoice);
 				})
 				.catch(function(error) {
-					_this.notifService.showNotification('Error saving new invoice details: ' + error.message, 'Close');
+					_this.notifService.showNotification(`Error saving new invoice details: ${error.message}`, 'Close');
 				})
 		}
 
 		function saveItems() {
-			// for (let item of _this.items) {
-			// 	_this.db.collection('/users').doc(_this.userId).collection('/invoices').doc(newDocRef).collection('/items').add(item)
-			// 		.then(function(docRef) {
-			// 			console.log('NewInvoice.save() - Item added to items collection: ', item);
-			// 		})
-			// 		.catch(function(error) {
-			// 			_this.notifService.showNotification('Error saving items to new invoice: ' + error.message, 'Close');
-			// 			console.error('Error adding document to items collection: ' + error.message);
-			// 		})
-			// }
-
-			// Update to full es6 format
 			_this.items.forEach(item => {
-				_this.db.collection('/users').doc(_this.userId).collection('/invoices').doc(newDocRef).collection('/items').add(item)
+				_this.db.collection('/users').doc(_this.authService.user.uid).collection('/invoices').doc(newDocRef).collection('/items').add(item)
 					.then(function(docRef) {
 						console.log('NewInvoice.save() - Item added to items collection: ', item);
 					})
 					.catch(function(error) {
-						_this.notifService.showNotification('Error saving items to new invoice: ' + error.message, 'Close');
-						console.error('Error adding document to items collection: ' + error.message);
+						_this.notifService.showNotification(`Error saving items to new invoice: ${error.message}`, 'Close');
+						console.error(`Error adding document to items collection: ${error.message}`);
 					})
 			})
 		}
@@ -327,15 +314,22 @@ export class NewInvoiceComponent implements OnInit {
 			}, 500)
 		})
 		.catch(function(error) {
-			_this.notifService.showNotification('Error saving invoice: ' + error.message, 'Close');
-			console.error('Error saving new invoice:', error);
+			_this.notifService.showNotification(`Error saving invoice: ${error.message}`, 'Close');
+			console.error(`Error saving new invoice: ${error.message}`);
 		})
 
 	}
 
 	reset() {
 		console.log('reset()');
+		
 		this.newInvoiceForm.reset();
+
+		this.items = [];
+		this.itemsData = new MatTableDataSource<InvoiceItem>();
+
+		this.selectedContactId = this.contacts[0].id;
+		this.getSelectedContact();
 	}
 
 }

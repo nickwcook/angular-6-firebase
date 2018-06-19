@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { of as observableOf,  Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
@@ -13,8 +12,6 @@ import { InvoiceItem } from '../invoices/invoice-item.interface';
 @Injectable()
 export class InvoicesService {
 
-    userId: string;
-
 	invoicesCollection: AngularFirestoreCollection<Invoice>;
     invoices$: Observable<Invoice[]>;
 
@@ -22,9 +19,8 @@ export class InvoicesService {
     selectedInvoiceItems: InvoiceItem[];
 
 	constructor(private authService: AuthService, private db: AngularFirestore) {
-        this.userId = this.authService.user.uid;
         
-        this.invoicesCollection = this.db.collection('/users').doc(this.userId).collection('/invoices');
+        this.invoicesCollection = this.db.collection('/users').doc(this.authService.user.uid).collection('/invoices');
 
         this.invoices$ = this.invoicesCollection.snapshotChanges().pipe(
             map(changes => {

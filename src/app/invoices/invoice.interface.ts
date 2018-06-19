@@ -12,6 +12,7 @@ export interface Invoice {
     subtotal: number;
     tax: number;
     total: number;
+    remainderDue: number;
     posted: boolean;
 	paid: boolean;
 }

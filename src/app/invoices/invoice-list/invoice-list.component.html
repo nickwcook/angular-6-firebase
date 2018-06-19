@@ -50,27 +50,19 @@
 
 		</ng-container>
 
-		<ng-container matColumnDef="subtotal">
-
-			<mat-header-cell *matHeaderCellDef mat-sort-header style="width: 10%; flex: none">Subtotal</mat-header-cell>
-
-			<mat-cell *matCellDef="let invoice" style="width: 10%; flex: none">{{invoice.subtotal | currency: 'GBP'}}</mat-cell>
-
-		</ng-container>
-
-		<ng-container matColumnDef="tax">
-
-			<mat-header-cell *matHeaderCellDef mat-sort-header style="width: 10%; flex: none">Tax</mat-header-cell>
-
-			<mat-cell *matCellDef="let invoice" style="width: 10%; flex: none">{{invoice.tax | currency: 'GBP'}}</mat-cell>
-
-		</ng-container>
-
 		<ng-container matColumnDef="total">
 
 			<mat-header-cell *matHeaderCellDef mat-sort-header style="width: 10%; flex: none">Total</mat-header-cell>
 
 			<mat-cell *matCellDef="let invoice" style="width: 10%; flex: none">{{invoice.total | currency: 'GBP'}}</mat-cell>
+
+		</ng-container>
+
+		<ng-container matColumnDef="remainderDue">
+
+			<mat-header-cell *matHeaderCellDef mat-sort-header style="width: 10%; flex: none">Remainder Due</mat-header-cell>
+
+			<mat-cell *matCellDef="let invoice" style="width: 10%; flex: none">{{invoice.remainderDue | currency: 'GBP'}}</mat-cell>
 
 		</ng-container>
 

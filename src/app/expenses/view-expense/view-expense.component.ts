@@ -21,17 +21,13 @@ import { DeleteExpenseDialogComponent } from './dialogs/delete-expense-dialog/de
 
 export class ViewExpenseComponent implements OnInit {
 	
-	userId: string;
-	
 	expenseId: string;
 	expense: Expense;
     expense$: Observable<Expense>;
 
 	deleteDialogRef: MatDialogRef<DeleteExpenseDialogComponent>;
 
-	constructor(private authService: AuthService, private expensesService: ExpensesService, private db: AngularFirestore, private route: ActivatedRoute, private dialog: MatDialog) {
-		this.userId = this.authService.user.uid;
-		
+	constructor(private authService: AuthService, private expensesService: ExpensesService, private db: AngularFirestore, private route: ActivatedRoute, private dialog: MatDialog) {		
 		this.expense = this.expensesService.selectedExpense;
 	}
 
@@ -49,7 +45,7 @@ export class ViewExpenseComponent implements OnInit {
 		this.deleteDialogRef = this.dialog.open(DeleteExpenseDialogComponent, {
 			hasBackdrop: true,
 			data: {
-				userId: this.userId,
+				userId: this.authService.user.uid,
 				expenseId: this.expenseId
 			}
 		})

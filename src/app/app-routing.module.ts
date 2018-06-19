@@ -1,31 +1,40 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, RouterLinkActive } from '@angular/router';
-
 import { CanActivateRouteGuard } from './can-activate-route.guard';
 
-import { DashboardComponent } from './dashboard/dashboard.component';
+// COMPONENTS
 
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+	// Dashboard
+	import { DashboardComponent } from './dashboard/dashboard.component';
 
-import { NotificationsComponent } from './notifications/notifications/notifications.component';
+	// Login/Register
+	import { LoginComponent } from './login/login.component';
+	import { RegisterComponent } from './register/register.component';
 
-import { EditInvoiceComponent } from './invoices/edit-invoice/edit-invoice.component';
-import { NewInvoiceComponent } from './invoices/new-invoice/new-invoice.component';
-import { InvoiceListComponent } from './invoices/invoice-list/invoice-list.component';
-import { ViewInvoiceComponent } from './invoices/view-invoice/view-invoice.component';
+	// Notifications
+	import { NotificationsComponent } from './notifications/notifications/notifications.component';
 
-import { NewExpenseComponent } from './expenses/new-expense/new-expense.component';
-import { ExpenseListComponent } from './expenses/expense-list/expense-list.component';
-import { ViewExpenseComponent } from './expenses/view-expense/view-expense.component';
+	// Invoices
+	import { EditInvoiceComponent } from './invoices/edit-invoice/edit-invoice.component';
+	import { NewInvoiceComponent } from './invoices/new-invoice/new-invoice.component';
+	import { InvoiceListComponent } from './invoices/invoice-list/invoice-list.component';
+	import { ViewInvoiceComponent } from './invoices/view-invoice/view-invoice.component';
 
-import { BankComponent } from './bank/bank.component';
+	// Expenses
+	import { NewExpenseComponent } from './expenses/new-expense/new-expense.component';
+	import { ExpenseListComponent } from './expenses/expense-list/expense-list.component';
+	import { ViewExpenseComponent } from './expenses/view-expense/view-expense.component';
 
-import { NewContactComponent } from './contacts/new-contact/new-contact.component';
-import { ContactListComponent } from './contacts/contact-list/contact-list.component';
-import { ViewContactComponent } from './contacts/view-contact/view-contact.component';
+	// Bank
+	import { BankComponent } from './bank/bank.component';
 
-import { DocumentsComponent } from './documents/documents.component';
+	// Contacts
+	import { NewContactComponent } from './contacts/new-contact/new-contact.component';
+	import { ContactListComponent } from './contacts/contact-list/contact-list.component';
+	import { ViewContactComponent } from './contacts/view-contact/view-contact.component';
+
+	// Documents
+	import { DocumentsComponent } from './documents/documents.component';
 	
 const routes: Routes = [
 	{
@@ -38,6 +47,8 @@ const routes: Routes = [
 		component: DashboardComponent,
             canActivate: [CanActivateRouteGuard]
 	},
+
+	// Login/Register
 	{
 		path: 'login',
 		component: LoginComponent
@@ -46,6 +57,8 @@ const routes: Routes = [
 		path: 'register',
 		component: RegisterComponent
 	},
+
+	// Notifications
 	{
 		path: 'notifications',
 		component: NotificationsComponent,
@@ -56,6 +69,8 @@ const routes: Routes = [
 		component: NotificationsComponent,
             canActivate: [CanActivateRouteGuard]
 	},
+
+	// Invoices
 	{
 		path: 'invoices/new',
 		component: NewInvoiceComponent,
@@ -76,6 +91,8 @@ const routes: Routes = [
 		component: EditInvoiceComponent,
             canActivate: [CanActivateRouteGuard]
 	},
+
+	// Expenses
 	{
 		path: 'expenses/new',
 		component: NewExpenseComponent,
@@ -91,11 +108,15 @@ const routes: Routes = [
 		component: ViewExpenseComponent,
             canActivate: [CanActivateRouteGuard]
 	},
+
+	// Bank
 	{
 		path: 'bank',
 		component: BankComponent,
             canActivate: [CanActivateRouteGuard]
 	},
+
+	// Contacts
 	{
 		path: 'contacts/new',
 		component: NewContactComponent,
@@ -111,6 +132,8 @@ const routes: Routes = [
 		component: ViewContactComponent,
             canActivate: [CanActivateRouteGuard]
 	},
+
+	// Documents
 	{
 		path: 'documents',
 		component: DocumentsComponent,

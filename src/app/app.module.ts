@@ -40,7 +40,6 @@ import {
 	MatSnackBarModule, 
 	MatSortModule,
 	MatStepperModule,
-	// MatTableModule, 
 	MatTabsModule, 
 	MatTooltipModule 
 } from '@angular/material';

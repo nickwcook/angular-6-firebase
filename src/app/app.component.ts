@@ -26,8 +26,11 @@ import { NotificationsComponent } from './notifications/notifications/notificati
 
 export class AppComponent {
 	
-	appTitle = 'Angular 5 Firebase App';
-	appAuthor = 'Nick Cook';
+	app = {
+		title: 'Angular 6 Firebase Finance Manager',
+		author: 'Nick Cook',
+		version: '1.0'
+	}
 	
 	titles: any[];
     
@@ -92,8 +95,8 @@ export class AppComponent {
 			var data = await this.getAsyncData();
 			console.log('logAsyncTest().data:', data);
 		}
-		catch(err) {
-			console.error('logAsyncTest().error:', err);
+		catch(error) {
+			console.error(`logAsyncTest().error: ${error}`);
 		}
 	}
 }
