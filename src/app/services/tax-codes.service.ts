@@ -36,11 +36,10 @@ export class TaxCodesService {
     }
 
     getSelectedTaxCode(selectedRate) {
-        let _this = this;
-        this.taxCodesCollection.ref.where('rate', '==', selectedRate).get().then(function(querySnapshot) {
-            querySnapshot.forEach(function(documentSnapshot) {
-                _this.selectedTaxCode = documentSnapshot.data();
-                console.log('TaxCodesService.getSelectedTaxCode().selectedTaxCode:', _this.selectedTaxCode);
+        this.taxCodesCollection.ref.where('rate', '==', selectedRate).get().then(querySnapshot => {
+            querySnapshot.forEach(documentSnapshot => {
+                this.selectedTaxCode = documentSnapshot.data();
+                console.log('TaxCodesService.getSelectedTaxCode().selectedTaxCode:', this.selectedTaxCode);
             })
         })
         return this.selectedTaxCode;

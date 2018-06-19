@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ExpensesService } from '@app/services/expenses.service';
-
 import { AuthService } from '@app/services/auth.service';
+
 import { Expense } from '../expense.interface';
 
 @Component({
@@ -13,10 +13,8 @@ import { Expense } from '../expense.interface';
 
 export class NewExpenseComponent implements OnInit {
 
-    userId: string;
-
     constructor(private authService: AuthService, private expensesService: ExpensesService) {
-        this.userId = this.authService.user.uid;
+        
     }
 
     ngOnInit() {

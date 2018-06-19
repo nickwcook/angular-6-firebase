@@ -38,16 +38,15 @@ export class DeleteContactDialogComponent implements OnInit {
   confirmDeletion() {
     console.log('Try confirmDeletion() - User #' + this.data.userId + ', Contact #' + this.data.contactId);
 
-    let _this = this;
-
     this.dialogRef.close();
     
     this.db.collection('/users').doc(this.data.userId).collection('/contacts').doc(this.data.contactId).delete()
-      .then(function() {
+      .then(() => {
         console.log('Contact successfully deleted');
-        _this.router.navigateByUrl('/contacts/all');
-        _this.notifService.showNotification('Contact successfully deleted', 'Close');
-      }).catch(function(error) {
+        this.router.navigateByUrl('/contacts/all');
+        this.notifService.showNotification('Contact successfully deleted', 'Close');
+      })
+      .catch(error => {
         console.error('Error deleting contact:', error);
       })
   }

@@ -26,26 +26,23 @@ export class AuthService {
 	}
     
     signIn(email: string, password: string) {
-        
-        let _component = this;
-
-        _component.firebaseAuth
+        this.firebaseAuth
             .auth
             .signInWithEmailAndPassword(email, password)
             .then(value => {
                 if (firebase.auth().currentUser.emailVerified) {
                     console.log('AuthService - Signed In');
-                    _component.isAuthenticated = true;
-                    _component.router.navigateByUrl('/dashboard');
-                    _component.notifService.showNotification(`Logged in as ${email}`, 'Close');
-                    _component.user = firebase.auth().currentUser;
+                    this.isAuthenticated = true;
+                    this.router.navigateByUrl('/dashboard');
+                    this.notifService.showNotification(`Logged in as ${email}`, 'Close');
+                    this.user = firebase.auth().currentUser;
                 } else {
-                    _component.notifService.showNotification('You must verify your email using the link sent to your email address before signing in', 'Close');
+                    this.notifService.showNotification('You must verify your email using the link sent to your email address before signing in', 'Close');
                 }
             })
             .catch(error => {
                 console.error(`AuthService.signIn() - Error signing in: ${error.message}`);
-				_component.notifService.showNotification(`Sign-In Error: ${error.message}`, null);
+				this.notifService.showNotification(`Sign-In Error: ${error.message}`, null);
             })
         
 //        firebase.auth().onAuthStateChanged(user => {
@@ -76,9 +73,6 @@ export class AuthService {
     }
     
     register(email: string, password: string) {
-
-        let _component = this;
-
         this.firebaseAuth
             .auth
             .createUserWithEmailAndPassword(email, password)
@@ -88,14 +82,14 @@ export class AuthService {
                 var user = firebase.auth().currentUser;
 
                 user.sendEmailVerification()
-                    .then(function() {
-                        _component.verifyEmailDialogRef = _component.dialog.open(VerifyEmailDialogComponent, {
+                    .then(() => {
+                        this.verifyEmailDialogRef = this.dialog.open(VerifyEmailDialogComponent, {
                             hasBackdrop: true
                         })
                     })
-                    .catch(function(error) {
+                    .catch(error => {
                         console.error(`AuthService.register() - Error sending verification email: ${error.message}`);
-                        _component.notifService.showNotification(`Error sending verification email: ${error.message}`, null);
+                        this.notifService.showNotification(`Error sending verification email: ${error.message}`, null);
                     })
              })
              .catch(error => {

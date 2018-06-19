@@ -129,14 +129,14 @@ export class NewInvoiceComponent implements OnInit {
 			.subscribe(
 				data => {
 					if(data.length) {
-						let invoices = data.sort(function(invoice1, invoice2) {
+						let invoices = data.sort((invoice1, invoice2) => {
 							return invoice1.invoiceId - invoice2.invoiceId;
 						})
 
 						console.log('NewInvoice.invoicesService.getInvoices$:', invoices);
 						
 						this.invoiceId = invoices.slice(-1)[0].invoiceId + 1;
-						console.log('NewInvoice.invoiceId: ' + this.invoiceId);
+						console.log(`NewInvoice.invoiceId: ${this.invoiceId}`);
 					} else {
 						this.invoiceId = 1;
 						console.log('NewInvoice.invoicesService.getInvoices$: No invoices. invoiceId set to 1');
@@ -194,19 +194,18 @@ export class NewInvoiceComponent implements OnInit {
 	}
 
 	deleteItems() {
-		let _this = this;
 		console.log('NewInvoice.deleteItems():', this.itemsSelection.selected);
 		console.log('NewInvoice.items:', this.items);
 
 		this.itemsSelection.selected.forEach(item => {
 			const itemId = item.itemId;
-			const itemIndex = _this.itemsData.data.map(function(x) {
+			const itemIndex = this.itemsData.data.map(x => {
 				return x.itemId; 
 			}).indexOf(itemId);
 
-			_this.itemsData.data.splice(itemIndex, 1);
+			this.itemsData.data.splice(itemIndex, 1);
 
-			_this.itemsData = new MatTableDataSource<InvoiceItem>(_this.itemsData.data);
+			this.itemsData = new MatTableDataSource<InvoiceItem>(this.itemsData.data);
 		})
 
 		this.items = this.itemsData.data;
@@ -219,7 +218,6 @@ export class NewInvoiceComponent implements OnInit {
 	}
 	
 	newItem() {
-
 		console.log('newItem()');
 
 		this.newItemDialogRef = this.dialog.open(NewItemDialogComponent, {
@@ -245,7 +243,6 @@ export class NewInvoiceComponent implements OnInit {
 				this.invoiceTotals.total += item.total;
 			}
 		})
-
 	}
 
 	calcInvoiceTotals() {
@@ -259,9 +256,8 @@ export class NewInvoiceComponent implements OnInit {
 	}
 
 	save() {
-		let _this = this;
 		
-		let newDocRef = _this.db.collection('/users').doc(_this.authService.user.uid).collection('/invoices').ref.doc().id;
+		let newDocRef = this.db.collection('/users').doc(this.authService.user.uid).collection('/invoices').ref.doc().id;
 		console.log(`newDocRef: ${newDocRef}`);
 		
 		this.invoice = {
@@ -279,24 +275,24 @@ export class NewInvoiceComponent implements OnInit {
 			paid: false
 		}
 
-		function saveMainDetails() {
-			_this.db.collection('/users').doc(_this.authService.user.uid).collection('/invoices').doc(newDocRef).set(_this.invoice)
-				.then(function(docRef) {
-					console.log('NewInvoice.save() - Main details saved:', _this.invoice);
+		var saveMainDetails = () => {
+			this.db.collection('/users').doc(this.authService.user.uid).collection('/invoices').doc(newDocRef).set(this.invoice)
+				.then(docRef => {
+					console.log('NewInvoice.save() - Main details saved:', this.invoice);
 				})
-				.catch(function(error) {
-					_this.notifService.showNotification(`Error saving new invoice details: ${error.message}`, 'Close');
+				.catch(error => {
+					this.notifService.showNotification(`Error saving new invoice details: ${error.message}`, 'Close');
 				})
 		}
 
-		function saveItems() {
-			_this.items.forEach(item => {
-				_this.db.collection('/users').doc(_this.authService.user.uid).collection('/invoices').doc(newDocRef).collection('/items').add(item)
-					.then(function(docRef) {
+		var saveItems = () => {
+			this.items.forEach(item => {
+				this.db.collection('/users').doc(this.authService.user.uid).collection('/invoices').doc(newDocRef).collection('/items').add(item)
+					.then(docRef => {
 						console.log('NewInvoice.save() - Item added to items collection: ', item);
 					})
-					.catch(function(error) {
-						_this.notifService.showNotification(`Error saving items to new invoice: ${error.message}`, 'Close');
+					.catch(error => {
+						this.notifService.showNotification(`Error saving items to new invoice: ${error.message}`, 'Close');
 						console.error(`Error adding document to items collection: ${error.message}`);
 					})
 			})
@@ -306,15 +302,15 @@ export class NewInvoiceComponent implements OnInit {
 			saveMainDetails(),
 			saveItems()
 		])
-		.then(function() {
+		.then(() => {
 			console.log('NewInvoice.save() - All promises resolved');
-			_this.notifService.showNotification('New invoice created', 'Close');
-			setTimeout(function() {
-				_this.router.navigateByUrl('/invoices/all');
+			this.notifService.showNotification('New invoice created', 'Close');
+			setTimeout(() => {
+				this.router.navigateByUrl('/invoices/all');
 			}, 500)
 		})
-		.catch(function(error) {
-			_this.notifService.showNotification(`Error saving invoice: ${error.message}`, 'Close');
+		.catch(error => {
+			this.notifService.showNotification(`Error saving invoice: ${error.message}`, 'Close');
 			console.error(`Error saving new invoice: ${error.message}`);
 		})
 

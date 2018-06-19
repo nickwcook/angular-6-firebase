@@ -29,20 +29,21 @@ export class UserService {
 			'Prof'
 		]
 
-		this.user.authService.user;
+		this.user = this.authService.user;
 	}
 	
     updateProfile() {
 		var photoUrl = 'http://www.uni-regensburg.de/Fakultaeten/phil_Fak_II/Psychologie/Psy_II/beautycheck/english/durchschnittsgesichter/m(01-32).jpg';
+		
         this.user.updateProfile({
             displayName: "Nick Cook",
             photoURL: photoUrl
 		})
-		.then(function() {
+		.then(() => {
             this.notifService.showNotification('Profile updated', 'Close');
 			console.log('User:', this.user);
 		})
-		.catch(function(error) {
+		.catch(error => {
             this.notifService.showNotification(`UserService.updateProfile() - Error updating profile: ${error}`, null);
         })
     }

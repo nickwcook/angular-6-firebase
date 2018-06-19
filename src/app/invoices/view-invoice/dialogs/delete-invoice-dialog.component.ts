@@ -38,16 +38,15 @@ export class DeleteInvoiceDialogComponent implements OnInit {
   confirmDeletion() {
     console.log(`Try confirmDeletion() - User #${this.data.userId}, Invoice #${this.data.invoiceId}`);
 
-    let _this = this;
-
     this.dialogRef.close();
     
     this.db.collection('/users').doc(this.data.userId).collection('/invoices').doc(this.data.invoiceId).delete()
-      .then(function() {
+      .then(() => {
         console.log('Invoice successfully deleted');
-        _this.router.navigateByUrl('/invoices/all');
-        _this.notifService.showNotification('Invoice successfully deleted', 'Close');
-      }).catch(function(error) {
+        this.router.navigateByUrl('/invoices/all');
+        this.notifService.showNotification('Invoice successfully deleted', 'Close');
+      })
+      .catch(error => {
         console.error(`Error deleting invoice: ${error.message}`);
       })
   }

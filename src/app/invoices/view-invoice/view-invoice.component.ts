@@ -132,41 +132,39 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 	}
 
 	addPayment() {
-		let _this = this;
 
 		console.log('ViewInvoice.addPayment()');
 		
 		this.newPaymentDialogRef = this.dialog.open(NewPaymentDialogComponent, {
 			hasBackdrop: true,
 			data: {
-				userId: _this.authService.user.uid,
-				invoice: _this.invoice,
-				payments: _this.payments
+				userId: this.authService.user.uid,
+				invoice: this.invoice,
+				payments: this.payments
 			}
 		})
 
 		this.newPaymentDialogRef.afterClosed().subscribe(payment => {
 			if (payment) {
-				_this.payments.push(payment);
-				_this.paymentsData.data = _this.payments;
+				this.payments.push(payment);
+				this.paymentsData.data = this.payments;
 
-				_this.db.collection('/users').doc(_this.authService.user.uid).collection('/invoices').doc(_this.invoice.id).collection('/payments').doc(payment.id).set(payment)
-					.then(function(docRef) {
+				this.db.collection('/users').doc(this.authService.user.uid).collection('/invoices').doc(this.invoice.id).collection('/payments').doc(payment.id).set(payment)
+					.then(docRef => {
 						console.log('ViewInvoice.addPayment() - New payment saved:', payment);
-						_this.notifService.showNotification('Payment added', 'Close');
+						this.notifService.showNotification('Payment added', 'Close');
 					})
-					.catch(function(error) {
+					.catch(error => {
 						console.error(`ViewInvoice.addPayment() - Error saving new payment: ${error.message}`);
-						_this.notifService.showNotification(`Error adding new payment: ${error.message}`, 'Close');
+						this.notifService.showNotification(`Error adding new payment: ${error.message}`, 'Close');
 					})
 
-				_this.calcPaymentTotals(payment);
+				this.calcPaymentTotals(payment);
 			}
 		})
 	}
 
 	calcPaymentTotals(newPayment?) {
-		let _component = this;
 
 		this.totalPaid = 0;
 
@@ -183,14 +181,14 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 			this.invoice.paid = true;
 
 			if (newPayment) {
-				_component.db.collection('/users').doc(_component.authService.user.uid).collection('/invoices').doc(_component.invoice.id).set(_component.invoice)
-					.then(function() {
+				this.db.collection('/users').doc(this.authService.user.uid).collection('/invoices').doc(this.invoice.id).set(this.invoice)
+					.then(()=> {
 						console.log('ViewInvoice.calcPaymentTotals() - Invoice fully-paid and saved');
-						// _component.notifService.showNotification('Invoice fully-paid', 'Close');
+						// this.notifService.showNotification('Invoice fully-paid', 'Close');
 					})
-					.catch(function(error) {
+					.catch(error => {
 						console.log(`ViewInvoice.calcPaymentTotals() - Error saving fully-paid invoice: ${error.message}`);
-						_component.notifService.showNotification(`Error saving fully-paid invoice: ${error.message}`, 'Close');
+						this.notifService.showNotification(`Error saving fully-paid invoice: ${error.message}`, 'Close');
 					})
 			}
 		}
@@ -201,20 +199,18 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 	}
 
 	unpostInvoice() {
-		let _this = this;
-
 		console.log('ViewInvoice.unpostInvoice()');
 
 		this.invoice.posted = false;
 
 		this.db.collection('users').doc(this.authService.user.uid).collection('invoices').doc(this.invoice.id).set(this.invoice)
-			.then(function() {
+			.then(() => {
 				console.log('ViewInvoice.unpostInvoice() - Invoice successfully unposted');
-				_this.notifService.showNotification('Invoice unposted', 'Close');
+				this.notifService.showNotification('Invoice unposted', 'Close');
 			})
-			.catch(function(error) {
+			.catch(error => {
 				console.log(`ViewInvoice.unpostInvoice() - Error unposting invoice: ${error.message}`);
-				_this.notifService.showNotification(`Error unposting invoice: ${error.message}`, 'Close');
+				this.notifService.showNotification(`Error unposting invoice: ${error.message}`, 'Close');
 			})
 	}
 	
@@ -228,7 +224,6 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 				invoiceId: this.invoice.id
 			}
 		})
-
 	}
 
 	ngOnDestroy() {

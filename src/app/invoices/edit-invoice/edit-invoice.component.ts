@@ -136,9 +136,11 @@ export class EditInvoiceComponent implements OnInit {
 
 	toggleSelectAllItems() {
 		console.log(`EditInvoice.toggleSelectAllItems() - allItemsSelected(): ${this.allItemsSelected()}`);
+
 		this.allItemsSelected() ? this.itemsSelection.clear() : this.itemsData.data.forEach(item => {
 			this.itemsSelection.select(item);
 		})
+
 		console.log('EditInvoice.itemsSelection:', this.itemsSelection);
 		console.log('EditInvoice - Selected Items (itemsSelection.selected):', this.itemsSelection.selected);
 	}
@@ -170,25 +172,24 @@ export class EditInvoiceComponent implements OnInit {
 	}
 	
 	editItem(item) {
-		console.log('EditInvoice.editItem( ' + '\'' + item.description + '\'' + ' )', item);
+		console.log(`EditInvoice.editItem('${item.description}')`, item);
 	}
 
 	deleteItems() {
-		let _this = this;
 		console.log('EditInvoice.deleteItems():', this.itemsSelection.selected);
 		console.log('EditInvoice.items:', this.items);
 
 		this.itemsSelection.selected.forEach(item => {
-			_this.deletedItems.push(item);
+			this.deletedItems.push(item);
 
 			const itemId = item.itemId;
-			const itemIndex = _this.itemsData.data.map(function(x) { 
+			const itemIndex = this.itemsData.data.map(function(x) { 
 				return x.itemId; 
 			}).indexOf(itemId);
 
-			_this.itemsData.data.splice(itemIndex, 1);
+			this.itemsData.data.splice(itemIndex, 1);
 
-			_this.itemsData = new MatTableDataSource<InvoiceItem>(_this.itemsData.data);
+			this.itemsData = new MatTableDataSource<InvoiceItem>(this.itemsData.data);
 		})
 
 		this.items = this.itemsData.data;
@@ -260,47 +261,47 @@ export class EditInvoiceComponent implements OnInit {
 
 	saveChanges() {
 		console.log('saveChanges()');
-
-		let _this = this;
 		
 		this.calcInvoiceTotals();
 
-		function saveMainDetails() {
-			_this.db.collection('/users').doc(_this.authService.user.uid).collection('/invoices').doc(_this.invoice.id).set(_this.invoice)
-				.then(function() {
-					console.log('EditInvoice.save().saveMainDetails() - Main details saved:', _this.invoice);
-					_this.initModel = _this.invoice;
+		debugger;
+
+		var saveMainDetails = () => {
+			this.db.collection('/users').doc(this.authService.user.uid).collection('/invoices').doc(this.invoice.id).set(this.invoice)
+				.then(() => {
+					console.log('EditInvoice.save().saveMainDetails() - Main details saved:', this.invoice);
+					this.initModel = this.invoice;
 				})
-				.catch(function(error) {
-					_this.notifService.showNotification(`Error saving invoice details: ${error.message}`, 'Close');
+				.catch(error => {
+					this.notifService.showNotification(`Error saving invoice details: ${error.message}`, 'Close');
 					console.error(`EditInvoice.save().saveMainDetails() - Error saving invoice details: ${error.message}`);
 				})
 		}
 
-		function saveItems() {
-			for (let item of _this.newItems) {
-				_this.db.collection('/users').doc(_this.authService.user.uid).collection('/invoices').doc(_this.invoice.id).collection('/items').add(item)
-					.then(function() {
+		var saveItems = () => {
+			for (let item of this.newItems) {
+				this.db.collection('/users').doc(this.authService.user.uid).collection('/invoices').doc(this.invoice.id).collection('/items').add(item)
+					.then(() => {
 						console.log('EditInvoice.save().saveItems() - Item added to items collection: ', item);
-						// _this.changesMade = false;
+						// this.changesMade = false;
 					})
-					.catch(function(error) {
-						_this.notifService.showNotification(`Error saving items to new invoice: ${error.message}`, 'Close');
+					.catch(error => {
+						this.notifService.showNotification(`Error saving items to new invoice: ${error.message}`, 'Close');
 						console.error(`EditInvoice.save().saveItems() - Error adding document to items collection: ${error.message}`);
 					})
 			}
 		}
 
-		function deleteItems() {
-			for (let item of _this.deletedItems) {
+		var deleteItems = () => {
+			for (let item of this.deletedItems) {
 				// Only attempt to remove from firebase if item present prior to editng invoice
 				if (item.id) {
-					_this.db.collection('/users').doc(_this.authService.user.uid).collection('/invoices').doc(_this.invoice.id).collection('/items').doc(item.id.toString()).delete()
-					.then(function() {
+					this.db.collection('/users').doc(this.authService.user.uid).collection('/invoices').doc(this.invoice.id).collection('/items').doc(item.id.toString()).delete()
+					.then(() => {
 						console.log(`EditInvoice.save().deleteItems() - Item deleted from invoice - '${item.description}'`);
 					})
-					.catch(function(error) {
-					console.error(`EditInvoice.save().deleteItems - Error deleting item '${item.description}:' ${error.message}`);
+					.catch(error => {
+						console.error(`EditInvoice.save().deleteItems - Error deleting item '${item.description}:' ${error.message}`);
 					})
 				}
 			}
@@ -311,41 +312,38 @@ export class EditInvoiceComponent implements OnInit {
 			saveItems(),
 			deleteItems()
 		])
-		.then(function() {
+		.then(() => {
 			console.log('EditInvoice.save().Promise.all() - All promises resolved');
 			
-			if (_this.invoice.posted) {
-				_this.notifService.showNotification('Invoice saved and posted', 'Close');
+			if (this.invoice.posted) {
+				this.notifService.showNotification('Invoice saved and posted', 'Close');
 			} else {
-				_this.notifService.showNotification('Changes saved', 'Close');
+				this.notifService.showNotification('Changes saved', 'Close');
 			}
 
-			setTimeout(function() {
-				_this.router.navigateByUrl(`/invoices/${_this.invoice.id}`);
+			setTimeout(() => {
+				this.router.navigateByUrl(`/invoices/${this.invoice.id}`);
 			}, 500)
 		})
-		.catch(function(error) {
-			_this.notifService.showNotification(`Error saving invoice: ${error.message}`, 'Close');
+		.catch(error => {
+			this.notifService.showNotification(`Error saving invoice: ${error.message}`, 'Close');
 			console.error(`EditInvoice.save().Promise.all() - Error saving invoice: ${error.message}`);
 		})
 	}
 
 	saveAndPost() {
-		let _this = this;
 
-		function postInvoice() {
-			_this.postInvoice();
-		}
+		this.postInvoice();
 
 		return Promise.all([
-			postInvoice()
+			this.postInvoice()
 		])
-		.then(function() {
+		.then(() => {
 			console.log('InvoiceEdit.saveAndPost().Promise.all() - postInvoice promise resolved');
-			_this.saveChanges();
+			this.saveChanges();
 		})
-		.catch(function(error) {
-			_this.notifService.showNotification(`EditInvoice.saveAndPost().Promise.all() - Error saving invoice: ${error.message}`, 'Close');
+		.catch(error => {
+			this.notifService.showNotification(`EditInvoice.saveAndPost().Promise.all() - Error saving invoice: ${error.message}`, 'Close');
 			console.error(`EditInvoice.saveAndPost().Promise.all() - Error saving invoice: ${error.message}`);
 		})
 	}
