@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { AngularFirestore } from 'angularfire2/firestore';
 
+import { ExpensesService } from '@app/services/expenses.service';
 import { NotificationsService } from '@app/services/notifications.service';
 
 @Component({
@@ -27,7 +28,7 @@ import { NotificationsService } from '@app/services/notifications.service';
 
 export class DeleteExpenseDialogComponent implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<DeleteExpenseDialogComponent>, private router: Router, private db: AngularFirestore, private notifService: NotificationsService, @Inject (MAT_DIALOG_DATA) private data) {
+  constructor(private dialogRef: MatDialogRef<DeleteExpenseDialogComponent>, private router: Router, private db: AngularFirestore, private expensesService: ExpensesService, private notifService: NotificationsService, @Inject (MAT_DIALOG_DATA) private data) {
 
   }
 
@@ -40,7 +41,7 @@ export class DeleteExpenseDialogComponent implements OnInit {
 
     this.dialogRef.close();
     
-    this.db.collection('/users').doc(this.data.userId).collection('/expenses').doc(this.data.expenseId).delete()
+    this.expensesService.expensesCollection.doc(this.data.expenseId).delete()
       .then(() => {
         console.log('Expense successfully deleted');
         this.router.navigateByUrl('/expenses/all');

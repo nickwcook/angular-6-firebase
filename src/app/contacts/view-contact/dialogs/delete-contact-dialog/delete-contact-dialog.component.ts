@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { AngularFirestore } from 'angularfire2/firestore';
 
+import { ContactsService } from '@app/services/contacts.service';
 import { NotificationsService } from '@app/services/notifications.service';
 
 @Component({
@@ -27,7 +28,7 @@ import { NotificationsService } from '@app/services/notifications.service';
 
 export class DeleteContactDialogComponent implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<DeleteContactDialogComponent>, private router: Router, private db: AngularFirestore, private notifService: NotificationsService, @Inject (MAT_DIALOG_DATA) private data) {
+  constructor(private dialogRef: MatDialogRef<DeleteContactDialogComponent>, private router: Router, private db: AngularFirestore, private contactsService: ContactsService, private notifService: NotificationsService, @Inject (MAT_DIALOG_DATA) private data) {
 
   }
 
@@ -40,7 +41,7 @@ export class DeleteContactDialogComponent implements OnInit {
 
     this.dialogRef.close();
     
-    this.db.collection('/users').doc(this.data.userId).collection('/contacts').doc(this.data.contactId).delete()
+    this.contactsService.contactsCollection.doc(this.data.contactId).delete()
       .then(() => {
         console.log('Contact successfully deleted');
         this.router.navigateByUrl('/contacts/all');

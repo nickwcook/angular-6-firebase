@@ -267,7 +267,7 @@ export class EditInvoiceComponent implements OnInit {
 		debugger;
 
 		var saveMainDetails = () => {
-			this.db.collection('/users').doc(this.authService.user.uid).collection('/invoices').doc(this.invoice.id).set(this.invoice)
+			this.invoicesService.invoicesCollection.doc(this.invoice.id).set(this.invoice)
 				.then(() => {
 					console.log('EditInvoice.save().saveMainDetails() - Main details saved:', this.invoice);
 					this.initModel = this.invoice;
@@ -280,7 +280,7 @@ export class EditInvoiceComponent implements OnInit {
 
 		var saveItems = () => {
 			for (let item of this.newItems) {
-				this.db.collection('/users').doc(this.authService.user.uid).collection('/invoices').doc(this.invoice.id).collection('/items').add(item)
+				this.invoicesService.invoicesCollection.doc(this.invoice.id).collection('/items').add(item)
 					.then(() => {
 						console.log('EditInvoice.save().saveItems() - Item added to items collection: ', item);
 						// this.changesMade = false;
@@ -296,7 +296,7 @@ export class EditInvoiceComponent implements OnInit {
 			for (let item of this.deletedItems) {
 				// Only attempt to remove from firebase if item present prior to editng invoice
 				if (item.id) {
-					this.db.collection('/users').doc(this.authService.user.uid).collection('/invoices').doc(this.invoice.id).collection('/items').doc(item.id.toString()).delete()
+					this.invoicesService.invoicesCollection.doc(this.invoice.id).collection('/items').doc(item.id.toString()).delete()
 					.then(() => {
 						console.log(`EditInvoice.save().deleteItems() - Item deleted from invoice - '${item.description}'`);
 					})

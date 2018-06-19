@@ -23,7 +23,7 @@ export class AuthService {
 
 	constructor(public firebaseAuth: AngularFireAuth, private router: Router, private notifService: NotificationsService, private dialog: MatDialog) {
         
-	}
+    }
     
     signIn(email: string, password: string) {
         this.firebaseAuth

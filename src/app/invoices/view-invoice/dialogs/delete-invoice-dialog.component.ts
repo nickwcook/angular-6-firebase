@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { AngularFirestore } from 'angularfire2/firestore';
 
+import { InvoicesService } from '@app/services/invoices.service';
 import { NotificationsService } from '@app/services/notifications.service';
 
 @Component({
@@ -27,7 +28,7 @@ import { NotificationsService } from '@app/services/notifications.service';
 
 export class DeleteInvoiceDialogComponent implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<DeleteInvoiceDialogComponent>, private router: Router, private db: AngularFirestore, private notifService: NotificationsService, @Inject (MAT_DIALOG_DATA) private data) {
+  constructor(private dialogRef: MatDialogRef<DeleteInvoiceDialogComponent>, private router: Router, private db: AngularFirestore, private invoicesService: InvoicesService, private notifService: NotificationsService, @Inject (MAT_DIALOG_DATA) private data) {
     
   }
 
@@ -40,7 +41,7 @@ export class DeleteInvoiceDialogComponent implements OnInit {
 
     this.dialogRef.close();
     
-    this.db.collection('/users').doc(this.data.userId).collection('/invoices').doc(this.data.invoiceId).delete()
+    this.invoicesService.invoicesCollection.doc(this.data.invoiceId).delete()
       .then(() => {
         console.log('Invoice successfully deleted');
         this.router.navigateByUrl('/invoices/all');

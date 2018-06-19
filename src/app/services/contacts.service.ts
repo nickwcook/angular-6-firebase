@@ -12,15 +12,14 @@ import { Contact } from '@app/contacts/contact.interface';
 @Injectable()
 export class ContactsService {
 
-  userId: string;
-
   selectedContact: Contact;
 
   contactsCollection: AngularFirestoreCollection<Contact>;
   contacts$: Observable<Contact[]>;
 
-  constructor(private authService: AuthService, private db: AngularFirestore) {    
-    this.contactsCollection = this.db.collection('/users').doc(this.userId).collection('/contacts');
+  constructor(private authService: AuthService, private db: AngularFirestore) {
+    
+    this.contactsCollection = this.db.collection('/users').doc(this.authService.user.uid).collection('/contacts');
     
     this.contacts$ = this.contactsCollection.snapshotChanges().pipe(
       map(changes => {

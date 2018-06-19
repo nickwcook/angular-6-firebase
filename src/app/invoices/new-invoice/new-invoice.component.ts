@@ -257,7 +257,7 @@ export class NewInvoiceComponent implements OnInit {
 
 	save() {
 		
-		let newDocRef = this.db.collection('/users').doc(this.authService.user.uid).collection('/invoices').ref.doc().id;
+		let newDocRef = this.invoicesService.invoicesCollection.ref.doc().id;
 		console.log(`newDocRef: ${newDocRef}`);
 		
 		this.invoice = {
@@ -276,7 +276,7 @@ export class NewInvoiceComponent implements OnInit {
 		}
 
 		var saveMainDetails = () => {
-			this.db.collection('/users').doc(this.authService.user.uid).collection('/invoices').doc(newDocRef).set(this.invoice)
+			this.invoicesService.invoicesCollection.doc(newDocRef).set(this.invoice)
 				.then(docRef => {
 					console.log('NewInvoice.save() - Main details saved:', this.invoice);
 				})
@@ -287,7 +287,7 @@ export class NewInvoiceComponent implements OnInit {
 
 		var saveItems = () => {
 			this.items.forEach(item => {
-				this.db.collection('/users').doc(this.authService.user.uid).collection('/invoices').doc(newDocRef).collection('/items').add(item)
+				this.invoicesService.invoicesCollection.doc(newDocRef).collection('/items').add(item)
 					.then(docRef => {
 						console.log('NewInvoice.save() - Item added to items collection: ', item);
 					})

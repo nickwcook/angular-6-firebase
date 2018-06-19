@@ -8,18 +8,21 @@ import { AuthService } from '../services/auth.service';
 
 import { Invoice } from '@app/invoices/invoice.interface';
 import { InvoiceItem } from '../invoices/invoice-item.interface';
+import { database } from 'firebase';
 
 @Injectable()
 export class InvoicesService {
 
 	invoicesCollection: AngularFirestoreCollection<Invoice>;
     invoices$: Observable<Invoice[]>;
+    invoices: Invoice[];
 
     selectedInvoice: Invoice;
     selectedInvoiceItems: InvoiceItem[];
 
 	constructor(private authService: AuthService, private db: AngularFirestore) {
         
+        debugger;
         this.invoicesCollection = this.db.collection('/users').doc(this.authService.user.uid).collection('/invoices');
 
         this.invoices$ = this.invoicesCollection.snapshotChanges().pipe(

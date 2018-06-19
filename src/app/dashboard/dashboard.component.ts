@@ -86,6 +86,7 @@ export class DashboardComponent implements OnInit {
     }
 	
 	ngOnInit() {
+		
 		this.invoicesService.getInvoices$()
 			.subscribe(
 				data => {
