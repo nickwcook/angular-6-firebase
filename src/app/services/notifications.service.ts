@@ -30,8 +30,8 @@ export class NotificationsService {
 	
 	showNotification(message: string, action: string) {
 		this.snackbar.open(message, action, {
-			duration: 500000
-			// duration: 5000
+			// duration: 500000
+			duration: 5000
 		})
 	}
 

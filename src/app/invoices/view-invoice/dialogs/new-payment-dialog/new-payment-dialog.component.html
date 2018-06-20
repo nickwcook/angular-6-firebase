@@ -34,13 +34,13 @@
 
       <mat-form-field floatLabel="always" fxFlex.xs="50%" fxFlex.gt-sm="100%">
 
-        <input matInput name="amount" placeholder="Amount (£) *" formControlName="amount" appParseFloat>
+        <input matInput name="amount" placeholder="Amount (£) *" formControlName="amount" appParseFloat (blur)="validateAmount()">
 
       </mat-form-field>
 
     </div>
 
-    <div *ngIf="newPaymentForm.get('amount').touched && newPaymentForm.get('amount').invalid" class="form-error">You must enter an amount</div>
+    <div *ngIf="newPaymentForm.get('amount').touched && newPaymentForm.get('amount').invalid" class="form-error">Invalid payment amount<span *ngIf="amountErrorMessage">: {{amountErrorMessage}}</span></div>
 
     <!-- Select bank in future app update -->
     <!-- <div class="form-group">
