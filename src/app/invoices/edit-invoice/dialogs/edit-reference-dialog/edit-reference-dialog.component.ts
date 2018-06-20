@@ -8,11 +8,15 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
   
 	  <mat-dialog-content>
 
-		<mat-form-field fxFlex="90%">
+			<div class="form-group" fxLayout="row">
 
-			<input matInput [(ngModel)]="reference">
+				<mat-form-field fxFlex="90%">
 
-		</mat-form-field>
+					<input matInput [(ngModel)]="reference">
+
+				</mat-form-field>
+
+			</div>
 
 	  </mat-dialog-content>
   
@@ -20,9 +24,9 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
   
 	  <mat-dialog-actions align="end">
 
-		<button mat-button mat-dialog-close>Cancel</button>
+			<button mat-button mat-dialog-close>Cancel</button>
 
-		<button mat-raised-button (click)="saveChange()" [disabled]="!reference.length">Save Change</button>
+			<button mat-raised-button (click)="saveChange()" [disabled]="!reference.length">Save Change</button>
 
 	  </mat-dialog-actions>
 	`
