@@ -264,8 +264,6 @@ export class EditInvoiceComponent implements OnInit {
 		
 		this.calcInvoiceTotals();
 
-		debugger;
-
 		var saveMainDetails = () => {
 			this.invoicesService.invoicesCollection.doc(this.invoice.id).set(this.invoice)
 				.then(() => {

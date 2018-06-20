@@ -167,7 +167,7 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 	calcPaymentTotals(newPayment?) {
 
 		this.totalPaid = 0;
-
+		
 		this.payments.forEach(payment => {
 			this.totalPaid += payment.amount;
 		})
@@ -177,20 +177,24 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 		console.log(`ViewInvoice.totalPaid: ${this.totalPaid}`);
 		console.log(`ViewInvoice.invoice.total: ${this.invoice.total}`);
 
+		var saveInvoice = () => {
+			this.invoicesService.invoicesCollection.doc(this.invoice.id).set(this.invoice)
+				.then(() => {
+					console.log('ViewInvoice.calcPaymentTotals().saveInvoice() - Successfully saved invoice');
+				})
+				.catch(error => {
+					console.error(`ViewInvoice.calcPaymentTotals().saveInvoice() - Error saving invoice: ${error.message}`);
+					this.notifService.showNotification(`Error saving invoice after adding new payment: ${error.message}`, null);
+				})
+		}
+
+		if (newPayment) {
+			saveInvoice();
+		}
+
 		if (+this.totalPaid.toFixed(2) === +this.invoice.total.toFixed(2)) {
 			this.invoice.paid = true;
-
-			if (newPayment) {
-				this.db.collection('/users').doc(this.authService.user.uid).collection('/invoices').doc(this.invoice.id).set(this.invoice)
-					.then(()=> {
-						console.log('ViewInvoice.calcPaymentTotals() - Invoice fully-paid and saved');
-						// this.notifService.showNotification('Invoice fully-paid', 'Close');
-					})
-					.catch(error => {
-						console.log(`ViewInvoice.calcPaymentTotals() - Error saving fully-paid invoice: ${error.message}`);
-						this.notifService.showNotification(`Error saving fully-paid invoice: ${error.message}`, 'Close');
-					})
-			}
+			saveInvoice();
 		}
 	}
 	
