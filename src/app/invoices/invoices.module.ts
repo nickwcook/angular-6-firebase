@@ -1,37 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-// ANGULAR RESOURCES
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-// ANGULAR MATERIAL
-import { 
-	MatButtonModule,
-	MatDialogModule,
-	MatToolbarModule, 
-	MatMenuModule,
-	MatInputModule, 
-	MatProgressSpinnerModule, 
-	MatCardModule, 
-	MatCheckboxModule,
-	MatIconModule,
-	MatDatepickerModule,
-	MAT_DATE_FORMATS,
-	MAT_DATE_LOCALE,
-	DateAdapter,
-	MatListModule,
-	MatPaginatorModule, 
-	MatRadioModule, 
-	MatRippleModule, 
-	MatSelectModule, 
-	MatSidenavModule, 
-	MatSnackBarModule, 
-	MatSortModule,
-	MatStepperModule,
-	MatTabsModule, 
-	MatTooltipModule 
-} from '@angular/material';
-
 import { NewItemDialogComponent } from './dialogs/new-item-dialog/new-item-dialog.component';
 
 // NEW INVOICE
@@ -56,12 +25,18 @@ import { EditInvoiceComponent } from './edit-invoice/edit-invoice.component';
 	import { EditReferenceDialogComponent } from './edit-invoice/dialogs/edit-reference-dialog/edit-reference-dialog.component';
 	import { CancelChangesDialogComponent } from './edit-invoice/dialogs/cancel-changes-dialog/cancel-changes-dialog.component';
 
+// SHARED/MATERIAL MODULES
+import { SharedModule } from '@app/shared.module';
+import { MaterialModule } from '@app/material.module';
+
 @NgModule({
+
 	imports: [
 		CommonModule,
-		FormsModule,
-		ReactiveFormsModule,
+		SharedModule,
+		MaterialModule
 	],
+
 	declarations: [
 		NewItemDialogComponent,
 
@@ -86,25 +61,7 @@ import { EditInvoiceComponent } from './edit-invoice/edit-invoice.component';
 		EmailInvoiceDirective,
 		DuplicateInvoiceDirective,
 	],
-	exports: [
-		NewItemDialogComponent,
-
-		// NEW INVOICE
-		NewInvoiceComponent,
-
-		// INVOICES LIST
-		InvoiceListComponent,
-
-		// VIEW INVOICE
-		ViewInvoiceComponent,
-			NewPaymentDialogComponent,
-			DeleteInvoiceDialogComponent,
-
-		// EDIT INVOICE
-		EditInvoiceComponent,
-			EditReferenceDialogComponent,
-			CancelChangesDialogComponent,
-	],
+	
 	entryComponents: [
 		NewItemDialogComponent,
 		

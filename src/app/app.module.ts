@@ -3,73 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
-// ANGULAR RESOURCES
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+// FEATURE MODULES
+import { InvoicesModule } from '@app/invoices/invoices.module';
 
-// ROUTING
-import { AppRoutingModule } from './app-routing.module';
-import { RouterLinkActive } from '@angular/router';
-import { CanActivateRouteGuard } from './can-activate-route.guard';
+// MATERIAL MODULE
+import { MaterialModule } from '@app/material.module';
 
-// HTTP
-import { HttpModule } from '@angular/http';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-
-// ANGULAR MATERIAL
-import { 
-	MatButtonModule,
-	MatDialogModule,
-	MatToolbarModule, 
-	MatMenuModule,
-	MatInputModule, 
-	MatProgressSpinnerModule, 
-	MatCardModule, 
-	MatCheckboxModule,
-	MatIconModule,
-	MatDatepickerModule,
-	MAT_DATE_FORMATS,
-	MAT_DATE_LOCALE,
-	DateAdapter,
-	MatListModule,
-	MatPaginatorModule, 
-	MatRadioModule, 
-	MatRippleModule, 
-	MatSelectModule, 
-	MatSidenavModule, 
-	MatSnackBarModule, 
-	MatSortModule,
-	MatStepperModule,
-	MatTabsModule, 
-	MatTooltipModule 
-} from '@angular/material';
-
-import { MatTableModule } from '@angular/material/table';
-import { MatBadgeModule } from '@angular/material/badge';
-
-// MOMENTJS
-import * as _moment from 'moment';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
-
-// LODASH
-import * as _ from 'lodash';
-
-// FIREBASE
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireAuthModule } from 'angularfire2/auth';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AngularFireStorageModule } from 'angularfire2/storage';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
-import { environment } from '../environments/environment';
-
-// ELECTRON
-import { NgxElectronModule } from 'ngx-electron';
-
-// NG2-CHARTS
-import { ChartsModule } from 'ng2-charts';
-
-// CONTENT-LOADER 
-// import { ContentLoaderModule } from '@netbasal/content-loader';
+// SHARED MODULE
+import { SharedModule } from '@app/shared.module';
 
 // COMPONENTS
 import { AppComponent } from './app.component';
@@ -82,30 +23,6 @@ import { DashboardComponent } from './dashboard/dashboard.component'
 
 	// NOTIFICATIONS
 	import { NotificationsComponent } from './notifications/notifications/notifications.component';
-
-	// INVOICES
-		import { NewItemDialogComponent } from './invoices/dialogs/new-item-dialog/new-item-dialog.component';
-		//EditInvoice
-		import { EditInvoiceComponent } from './invoices/edit-invoice/edit-invoice.component';
-			// Dialogs
-			import { EditReferenceDialogComponent } from './invoices/edit-invoice/dialogs/edit-reference-dialog/edit-reference-dialog.component';
-			import { CancelChangesDialogComponent } from './invoices/edit-invoice/dialogs/cancel-changes-dialog/cancel-changes-dialog.component';
-
-		// NewInvoice
-		import { NewInvoiceComponent } from './invoices/new-invoice/new-invoice.component';
-
-		// InvoiceList
-		import { InvoiceListComponent } from './invoices/invoice-list/invoice-list.component';
-
-		// ViewInvoice
-		import { ViewInvoiceComponent } from './invoices/view-invoice/view-invoice.component';
-			// Dialogs
-			import { NewPaymentDialogComponent } from './invoices/view-invoice/dialogs/new-payment-dialog/new-payment-dialog.component';
-			import { DeleteInvoiceDialogComponent } from './invoices/view-invoice/dialogs/delete-invoice-dialog.component';
-			// Directives
-			import { DownloadInvoicePdfDirective } from './invoices/view-invoice/directives/download-invoice-pdf/download-invoice-pdf.directive';
-			import { EmailInvoiceDirective } from './invoices/view-invoice/directives/email-invoice/email-invoice.directive';
-			import { DuplicateInvoiceDirective } from './invoices/view-invoice/directives/duplicate-invoice/duplicate-invoice.directive';
 
 	// EXPENSES
 	import { NewExpenseComponent } from './expenses/new-expense/new-expense.component';
@@ -136,13 +53,6 @@ import { InvoicesService } from '@app/services/invoices.service';
 import { ExpensesService } from '@app/services/expenses.service';
 import { ContactsService } from '@app/services/contacts.service';
 
-// PIPES
-import { SortByPipe } from './pipes/sort-by.pipe';
-
-// GLOBAL DIRECTIVES
-import { ParseIntDirective } from './directives/parse-int.directive';
-import { ParseFloatDirective } from './directives/parse-float.directive';
-
 @NgModule({
 	
 	declarations: [
@@ -157,15 +67,15 @@ import { ParseFloatDirective } from './directives/parse-float.directive';
 		
 		NotificationsComponent,
 		
-		NewItemDialogComponent,
-		EditInvoiceComponent,
-			EditReferenceDialogComponent,
-			CancelChangesDialogComponent,
-        NewInvoiceComponent,
-        InvoiceListComponent,		
-        ViewInvoiceComponent,
-			NewPaymentDialogComponent,
-        	DeleteInvoiceDialogComponent,
+		// NewItemDialogComponent,
+		// EditInvoiceComponent,
+		// 	EditReferenceDialogComponent,
+		// 	CancelChangesDialogComponent,
+        // NewInvoiceComponent,
+        // InvoiceListComponent,		
+        // ViewInvoiceComponent,
+		// 	NewPaymentDialogComponent,
+        // 	DeleteInvoiceDialogComponent,
 		
         NewExpenseComponent,
         ExpenseListComponent,
@@ -179,78 +89,22 @@ import { ParseFloatDirective } from './directives/parse-float.directive';
         ViewContactComponent,		
         DeleteContactDialogComponent,
 		
-        DocumentsComponent,
-		
-		// PIPES
-        SortByPipe,
-		
-		// DIRECTIVES
-        ParseIntDirective,
-		ParseFloatDirective,
-			// Invoices
-			DownloadInvoicePdfDirective,
-			EmailInvoiceDirective,
-			DuplicateInvoiceDirective,
+		DocumentsComponent,
 	],
 	
 	imports: [
         // ANGULAR CORE
-        BrowserModule,
-		// ANGULAR RESOURCES
-		FlexLayoutModule,
-		FormsModule,
-		ReactiveFormsModule,
-		
-		// ROUTING
-		AppRoutingModule,
-		
-		// HTTP
-		HttpModule, 
-		HttpClientModule,
-        
-        // ANGULAR MATERIAL
-		MatButtonModule,
-		MatDialogModule,
-		MatToolbarModule,
-		MatMenuModule, 
-		MatInputModule, 
-		MatProgressSpinnerModule, 
-		MatBadgeModule,
-		MatCardModule, 
-		MatCheckboxModule, 
-		MatIconModule, 
-		MatDatepickerModule,
-		MatListModule, 
-		MatPaginatorModule, 
-		MatRadioModule, 
-		MatRippleModule, 
-		MatSelectModule, 
-		MatSidenavModule, 
-		MatSnackBarModule, 
-		MatSortModule,
-        BrowserAnimationsModule,
-		MatStepperModule,
-		MatTableModule, 
-		MatTabsModule, 
-		MatTooltipModule,
+		BrowserModule,
+		BrowserAnimationsModule,
 
-		// CONTENT-LOADER
-		// ContentLoaderModule,
+		// FEATURE MODULES
+		InvoicesModule,
 
-		// MOMENTJS
-		MatMomentDateModule,
-        
-        // FIREBASE
-        AngularFireModule.initializeApp(environment.firebase),
-        AngularFirestoreModule.enablePersistence(),
-        AngularFireAuthModule,
-        AngularFireStorageModule,
-		
-		// ELECTRON
-		NgxElectronModule,
+		// MATERIAL MODULE
+		MaterialModule,
 
-		// NG2-CHARTS
-		ChartsModule
+		// SHARED MODULE
+		SharedModule
 	],
 	
 	entryComponents: [
@@ -262,14 +116,14 @@ import { ParseFloatDirective } from './directives/parse-float.directive';
 			// View Contact
 			DeleteContactDialogComponent,
 
-		// INVOICES
-			NewItemDialogComponent,
-			// View Invoice
-			NewPaymentDialogComponent,
-			DeleteInvoiceDialogComponent,
-			// Edit Invoice
-			EditReferenceDialogComponent,
-			CancelChangesDialogComponent,
+		// // INVOICES
+		// 	NewItemDialogComponent,
+		// 	// View Invoice
+		// 	NewPaymentDialogComponent,
+		// 	DeleteInvoiceDialogComponent,
+		// 	// Edit Invoice
+		// 	EditReferenceDialogComponent,
+		// 	CancelChangesDialogComponent,
 
 		// EXPENSES
 			// View Expense
@@ -285,12 +139,7 @@ import { ParseFloatDirective } from './directives/parse-float.directive';
         NominalsService,
 		InvoicesService,
 		ExpensesService,
-		ContactsService,
-		CanActivateRouteGuard,
-		{
-			provide: MAT_DATE_LOCALE,
-			useValue: 'en-GB'
-		}
+		ContactsService
 	],
 	
 	bootstrap: [AppComponent]
