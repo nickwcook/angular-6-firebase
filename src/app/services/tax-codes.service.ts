@@ -6,17 +6,23 @@ import { map, catchError } from 'rxjs/operators';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 
 import { AuthService } from './auth.service';
-import { NewItemDialogComponent } from '@app/invoices/dialogs/new-item-dialog/new-item-dialog.component';
+import { NotificationsService } from './notifications.service';
+
+export interface TaxCode {
+    id: string;
+    name: string;
+    rate: number;
+}
 
 @Injectable()
-
 export class TaxCodesService {
     
-    taxCodesCollection: AngularFirestoreCollection<any>;
-    taxCodes$: Observable<any[]>;
-    selectedTaxCode: any;
+    taxCodesCollection: AngularFirestoreCollection<TaxCode>;
+    taxCodes$: Observable<TaxCode[]>;
+    taxCodes: TaxCode[];
+    selectedTaxCode: TaxCode;
 
-    constructor(private authService: AuthService, private db: AngularFirestore) {
+    constructor(private db: AngularFirestore, private authService: AuthService, private notifService: NotificationsService) {
         this.taxCodesCollection = this.db.collection('/taxCodes');
 
         this.taxCodes$ = this.taxCodesCollection.snapshotChanges().pipe(
@@ -38,7 +44,7 @@ export class TaxCodesService {
     getSelectedTaxCode(selectedRate) {
         this.taxCodesCollection.ref.where('rate', '==', selectedRate).get().then(querySnapshot => {
             querySnapshot.forEach(documentSnapshot => {
-                this.selectedTaxCode = documentSnapshot.data();
+                this.selectedTaxCode = documentSnapshot.data() as TaxCode;
                 console.log('TaxCodesService.getSelectedTaxCode().selectedTaxCode:', this.selectedTaxCode);
             })
         })

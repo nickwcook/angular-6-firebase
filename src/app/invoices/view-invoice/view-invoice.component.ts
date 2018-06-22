@@ -143,7 +143,7 @@ export class ViewInvoiceComponent implements OnInit, AfterViewInit {
 				payments: this.payments
 			}
 		})
-
+	
 		this.newPaymentDialogRef.afterClosed().subscribe(payment => {
 			if (payment) {
 				this.payments.push(payment);

@@ -5,6 +5,7 @@ import { map, catchError } from 'rxjs/operators';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 
 import { AuthService } from '../services/auth.service';
+import { NotificationsService } from '../services/notifications.service';
 
 import { Expense } from '@app/expenses/expense.interface';
 
@@ -15,8 +16,9 @@ export class ExpensesService {
 
   expensesCollection: AngularFirestoreCollection<Expense>;
   expenses$: Observable<Expense[]>;
+  expenses: Expense[];
 
-  constructor(private db: AngularFirestore, private authService: AuthService) {
+  constructor(private db: AngularFirestore, private authService: AuthService, private notifService: NotificationsService) {
 
     this.expensesCollection = this.db.collection('/users').doc(this.authService.user.uid).collection('/expenses');
 

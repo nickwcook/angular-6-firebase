@@ -1,32 +1,30 @@
-<!-- <h4 class="page-title">Dashboard</h4> -->
-
 <div fxLayout="column" fxLayoutGap="25px">
 
-    <mat-card fxFlex="33" class="mat-elevation-z3 dashboard-card">
+    <mat-card fxFlex="33" class="mat-elevation-z3 dashboard-card" (click)="getInvoices()">
 
-            <mat-card-header>
-                
-                <mat-card-title>Cashflow</mat-card-title>
-
-                <mat-card-subtitle>Income and expenses for the last 6 months</mat-card-subtitle>
-
-            </mat-card-header>
-
-            <mat-card-content>
-                    
-                <canvas baseChart
-                        height="75"
-                        [datasets]="chartTestData"
-                        [labels]="chartTestLabels"
-                        [options]="chartTestOptions"
-                        [colors]="chartTestColours"
-                        [legend]="chartTestLegend"
-                        [chartType]="'line'">
-                </canvas>
+        <mat-card-header>
             
-            </mat-card-content>
+            <mat-card-title>Cashflow</mat-card-title>
 
-        </mat-card>
+            <mat-card-subtitle>Income and expenses for the last 6 months</mat-card-subtitle>
+
+        </mat-card-header>
+
+        <mat-card-content>
+                
+            <canvas baseChart
+                    height="75"
+                    [datasets]="chartTestData"
+                    [labels]="chartTestLabels"
+                    [options]="chartTestOptions"
+                    [colors]="chartTestColours"
+                    [legend]="chartTestLegend"
+                    [chartType]="'line'">
+            </canvas>
+        
+        </mat-card-content>
+
+    </mat-card>
 
     <div fxLayout.xs="column" fxLayout.gt-md="row" fxLayoutGap="25px">
 

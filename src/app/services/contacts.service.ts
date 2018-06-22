@@ -6,6 +6,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 
 import { AuthService } from './auth.service';
+import { NotificationsService } from './notifications.service';
 
 import { Contact } from '@app/contacts/contact.interface';
 
@@ -16,8 +17,9 @@ export class ContactsService {
 
   contactsCollection: AngularFirestoreCollection<Contact>;
   contacts$: Observable<Contact[]>;
+  contacts: Contact[];
 
-  constructor(private authService: AuthService, private db: AngularFirestore) {
+  constructor(private db: AngularFirestore, private authService: AuthService, private notifService: NotificationsService) {
     
     this.contactsCollection = this.db.collection('/users').doc(this.authService.user.uid).collection('/contacts');
     

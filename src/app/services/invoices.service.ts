@@ -3,12 +3,13 @@ import { of as observableOf,  Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { database } from 'firebase';
 
 import { AuthService } from '../services/auth.service';
+import { NotificationsService } from '../services/notifications.service';
 
 import { Invoice } from '@app/invoices/invoice.interface';
 import { InvoiceItem } from '../invoices/invoice-item.interface';
-import { database } from 'firebase';
 
 @Injectable()
 export class InvoicesService {
@@ -20,9 +21,8 @@ export class InvoicesService {
     selectedInvoice: Invoice;
     selectedInvoiceItems: InvoiceItem[];
 
-	constructor(private authService: AuthService, private db: AngularFirestore) {
+	constructor(private db: AngularFirestore, private authService: AuthService, private notifService: NotificationsService) {
         
-        debugger;
         this.invoicesCollection = this.db.collection('/users').doc(this.authService.user.uid).collection('/invoices');
 
         this.invoices$ = this.invoicesCollection.snapshotChanges().pipe(

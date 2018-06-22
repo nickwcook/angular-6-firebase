@@ -5,6 +5,7 @@ import { map, catchError } from 'rxjs/operators';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 
 import { AuthService } from './auth.service';
+import { NotificationsService } from './notifications.service';
 
 export interface Nominal {
     id: string;
@@ -17,8 +18,9 @@ export class NominalsService {
 
 	nominalsCollection: AngularFirestoreCollection<Nominal>;
     nominals$: Observable<Nominal[]>;
+    nominals: Nominal[];
 
-    constructor(private authService: AuthService, private db: AngularFirestore) {
+    constructor(private db: AngularFirestore, private authService: AuthService, private notifService: NotificationsService) {
         
         this.nominalsCollection = this.db.collection('/users').doc(this.authService.user.uid).collection('/nominals');
 
