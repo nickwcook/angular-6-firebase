@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { InvoicesRoutingModule } from './invoices-routing.module';
+
 // SHARED/MATERIAL MODULES
 import { SharedModule } from '@app/shared.module';
 import { MaterialModule } from '@app/material.module';
@@ -30,6 +32,7 @@ import { MaterialModule } from '@app/material.module';
 
 	imports: [
 		CommonModule,
+		InvoicesRoutingModule,
 		SharedModule,
 		MaterialModule
 	],

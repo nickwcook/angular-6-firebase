@@ -2,37 +2,32 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes, RouterLinkActive } from '@angular/router';
 import { CanActivateRouteGuard } from './can-activate-route.guard';
 
-// COMPONENTS
+// MODULES
+// import { BankModule } from './bank/bank.module';
+// import { DocumentsModule } from './documents/documents.module';
+// import { ContactsModule } from './contacts/contacts.module';
+// import { ExpensesModule } from './expenses/expenses.module';
+// import { InvoicesModule } from './invoices/invoices.module';
 
+// COMPONENTS
 	// Dashboard
 	import { DashboardComponent } from './dashboard/dashboard.component';
-
-	// Login/Register
+	// Login
 	import { LoginComponent } from './login/login.component';
+	// Register
 	import { RegisterComponent } from './register/register.component';
-
 	// Notifications
 	import { NotificationsComponent } from './notifications/notifications/notifications.component';
-
-	// Invoices
-	import { EditInvoiceComponent } from './invoices/edit-invoice/edit-invoice.component';
-	import { NewInvoiceComponent } from './invoices/new-invoice/new-invoice.component';
-	import { InvoiceListComponent } from './invoices/invoice-list/invoice-list.component';
-	import { ViewInvoiceComponent } from './invoices/view-invoice/view-invoice.component';
-
 	// Expenses
 	import { NewExpenseComponent } from './expenses/new-expense/new-expense.component';
 	import { ExpenseListComponent } from './expenses/expense-list/expense-list.component';
 	import { ViewExpenseComponent } from './expenses/view-expense/view-expense.component';
-
 	// Bank
 	import { BankComponent } from './bank/bank.component';
-
 	// Contacts
 	import { NewContactComponent } from './contacts/new-contact/new-contact.component';
 	import { ContactListComponent } from './contacts/contact-list/contact-list.component';
 	import { ViewContactComponent } from './contacts/view-contact/view-contact.component';
-
 	// Documents
 	import { DocumentsComponent } from './documents/documents.component';
 	
@@ -67,28 +62,6 @@ const routes: Routes = [
 	{
 		path: 'notifications/:id',
 		component: NotificationsComponent,
-            canActivate: [CanActivateRouteGuard]
-	},
-
-	// Invoices
-	{
-		path: 'invoices/new',
-		component: NewInvoiceComponent,
-            canActivate: [CanActivateRouteGuard]
-	},
-	{
-		path: 'invoices/all',
-		component: InvoiceListComponent,
-            canActivate: [CanActivateRouteGuard]
-	},
-	{
-		path: 'invoices/:id',
-		component: ViewInvoiceComponent,
-            canActivate: [CanActivateRouteGuard]
-	},
-	{
-		path: 'invoices/:id/edit',
-		component: EditInvoiceComponent,
             canActivate: [CanActivateRouteGuard]
 	},
 
@@ -131,6 +104,12 @@ const routes: Routes = [
 		path: 'contacts/:id',
 		component: ViewContactComponent,
             canActivate: [CanActivateRouteGuard]
+	},
+
+	// Invoices
+	{
+		path: 'invoices',
+		loadChildren: './invoices/invoices.module#InvoicesModule'
 	},
 
 	// Documents
