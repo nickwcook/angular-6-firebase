@@ -1,33 +1,30 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NewItemDialogComponent } from './dialogs/new-item-dialog/new-item-dialog.component';
-
-// NEW INVOICE
-import { NewInvoiceComponent } from './new-invoice/new-invoice.component';
-
-// INVOICE LIST
-import { InvoiceListComponent } from './invoice-list/invoice-list.component';
-
-// VIEW INVOICE
-import { ViewInvoiceComponent } from './view-invoice/view-invoice.component';
-	// Dialogs
-	import { NewPaymentDialogComponent } from './view-invoice/dialogs/new-payment-dialog/new-payment-dialog.component';
-	import { DeleteInvoiceDialogComponent } from './view-invoice/dialogs/delete-invoice-dialog.component';
-	// Directives
-	import { DownloadInvoicePdfDirective } from './view-invoice/directives/download-invoice-pdf/download-invoice-pdf.directive';
-	import { EmailInvoiceDirective } from './view-invoice/directives/email-invoice/email-invoice.directive';
-	import { DuplicateInvoiceDirective } from './view-invoice/directives/duplicate-invoice/duplicate-invoice.directive';
-
-// EDIT INVOICE
-import { EditInvoiceComponent } from './edit-invoice/edit-invoice.component';
-	// Dialogs
-	import { EditReferenceDialogComponent } from './edit-invoice/dialogs/edit-reference-dialog/edit-reference-dialog.component';
-	import { CancelChangesDialogComponent } from './edit-invoice/dialogs/cancel-changes-dialog/cancel-changes-dialog.component';
-
 // SHARED/MATERIAL MODULES
 import { SharedModule } from '@app/shared.module';
 import { MaterialModule } from '@app/material.module';
+
+// COMPONENTS
+	import { NewItemDialogComponent } from './dialogs/new-item-dialog/new-item-dialog.component';
+	// New Invoice
+	import { NewInvoiceComponent } from './new-invoice/new-invoice.component';
+	// Invoice List
+	import { InvoiceListComponent } from './invoice-list/invoice-list.component';
+	// View Invoice
+	import { ViewInvoiceComponent } from './view-invoice/view-invoice.component';
+		// Dialogs
+		import { NewPaymentDialogComponent } from './view-invoice/dialogs/new-payment-dialog/new-payment-dialog.component';
+		import { DeleteInvoiceDialogComponent } from './view-invoice/dialogs/delete-invoice-dialog.component';
+		// Directives
+		import { DownloadInvoicePdfDirective } from './view-invoice/directives/download-invoice-pdf/download-invoice-pdf.directive';
+		import { EmailInvoiceDirective } from './view-invoice/directives/email-invoice/email-invoice.directive';
+		import { DuplicateInvoiceDirective } from './view-invoice/directives/duplicate-invoice/duplicate-invoice.directive';
+	// Edit Invoice
+	import { EditInvoiceComponent } from './edit-invoice/edit-invoice.component';
+		// Dialogs
+		import { EditReferenceDialogComponent } from './edit-invoice/dialogs/edit-reference-dialog/edit-reference-dialog.component';
+		import { CancelChangesDialogComponent } from './edit-invoice/dialogs/cancel-changes-dialog/cancel-changes-dialog.component';
 
 @NgModule({
 
@@ -38,23 +35,21 @@ import { MaterialModule } from '@app/material.module';
 	],
 
 	declarations: [
+		// COMPONENTS
 		NewItemDialogComponent,
-
-		// NEW INVOICE
-		NewInvoiceComponent,
-
-		// INVOICES LIST
-		InvoiceListComponent,	
-
-		// VIEW INVOICE
-		ViewInvoiceComponent,
-			NewPaymentDialogComponent,
-			DeleteInvoiceDialogComponent,
-
-		// EDIT INVOICE
-		EditInvoiceComponent,
-			EditReferenceDialogComponent,
-			CancelChangesDialogComponent,
+			// New Invoice
+			NewInvoiceComponent,
+			// Invoice List
+			InvoiceListComponent,	
+			// View Invoice
+			ViewInvoiceComponent,
+				NewPaymentDialogComponent,
+				DeleteInvoiceDialogComponent,
+			// Edit Invoice
+			EditInvoiceComponent,
+				// Dialogs
+				EditReferenceDialogComponent,
+				CancelChangesDialogComponent,
 
 		// DIRECTIVES
 		DownloadInvoicePdfDirective,
@@ -63,15 +58,14 @@ import { MaterialModule } from '@app/material.module';
 	],
 	
 	entryComponents: [
-		NewItemDialogComponent,
-		
-		// VIEW INVOICE
-		NewPaymentDialogComponent,
-		DeleteInvoiceDialogComponent,
-
-		// EDIT INVOICE
-		EditReferenceDialogComponent,
-		CancelChangesDialogComponent,
+		// DIALOGS
+			NewItemDialogComponent,
+			// View Invoice
+			NewPaymentDialogComponent,
+			DeleteInvoiceDialogComponent,
+			// Edit Invoice
+			EditReferenceDialogComponent,
+			CancelChangesDialogComponent
 	]
 })
 

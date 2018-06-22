@@ -41,6 +41,18 @@ import { SortByPipe } from './pipes/sort-by.pipe';
 import { ParseIntDirective } from './directives/parse-int.directive';
 import { ParseFloatDirective } from './directives/parse-float.directive';
 
+// SERVICES
+import { AuthService } from './services/auth.service';
+import { BankService } from './services/bank.service';
+import { DocumentsService } from './services/documents.service';
+import { ContactsService } from '@app/services/contacts.service';
+import { ExpensesService } from '@app/services/expenses.service';
+import { InvoicesService } from '@app/services/invoices.service';
+import { TaxCodesService } from './services/tax-codes.service';
+import { NominalsService } from './services/nominals.service';
+import { NotificationsService } from './services/notifications.service';
+import { UserService } from './services/user.service';
+
 @NgModule({
 
 	declarations: [
@@ -110,13 +122,25 @@ import { ParseFloatDirective } from './directives/parse-float.directive';
 		// PIPES
         SortByPipe,
 		
-		// DIRECTIVES
+		// GLOBAL DIRECTIVES
         ParseIntDirective,
 		ParseFloatDirective,
 	],
 
 	providers: [
-		CanActivateRouteGuard
+		CanActivateRouteGuard,
+
+		// SERVICES
+		AuthService,
+		BankService,
+		DocumentsService,
+		ContactsService,
+		InvoicesService,
+		ExpensesService,
+        TaxCodesService,
+        NominalsService,
+		NotificationsService,
+		UserService
 	]
 })
 
