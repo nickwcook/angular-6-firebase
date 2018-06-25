@@ -2,13 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes, RouterLinkActive } from '@angular/router';
 import { CanActivateRouteGuard } from './can-activate-route.guard';
 
-// MODULES
-// import { BankModule } from './bank/bank.module';
-// import { DocumentsModule } from './documents/documents.module';
-// import { ContactsModule } from './contacts/contacts.module';
-// import { ExpensesModule } from './expenses/expenses.module';
-// import { InvoicesModule } from './invoices/invoices.module';
-
 // COMPONENTS
 	// Dashboard
 	import { DashboardComponent } from './dashboard/dashboard.component';
@@ -17,17 +10,9 @@ import { CanActivateRouteGuard } from './can-activate-route.guard';
 	// Register
 	import { RegisterComponent } from './register/register.component';
 	// Notifications
-	import { NotificationsComponent } from './notifications/notifications/notifications.component';
-	// Expenses
-	import { NewExpenseComponent } from './expenses/new-expense/new-expense.component';
-	import { ExpenseListComponent } from './expenses/expense-list/expense-list.component';
-	import { ViewExpenseComponent } from './expenses/view-expense/view-expense.component';
+	import { NotificationsComponent } from './notifications/notifications.component';
 	// Bank
 	import { BankComponent } from './bank/bank.component';
-	// Contacts
-	import { NewContactComponent } from './contacts/new-contact/new-contact.component';
-	import { ContactListComponent } from './contacts/contact-list/contact-list.component';
-	import { ViewContactComponent } from './contacts/view-contact/view-contact.component';
 	// Documents
 	import { DocumentsComponent } from './documents/documents.component';
 	
@@ -40,7 +25,7 @@ const routes: Routes = [
 	{
 		path: 'dashboard',
 		component: DashboardComponent,
-            canActivate: [CanActivateRouteGuard]
+		canActivate: [CanActivateRouteGuard]
 	},
 
 	// Login/Register
@@ -57,66 +42,47 @@ const routes: Routes = [
 	{
 		path: 'notifications',
 		component: NotificationsComponent,
-            canActivate: [CanActivateRouteGuard]
+		canActivate: [CanActivateRouteGuard]
 	},
 	{
 		path: 'notifications/:id',
 		component: NotificationsComponent,
-            canActivate: [CanActivateRouteGuard]
-	},
-
-	// Expenses
-	{
-		path: 'expenses/new',
-		component: NewExpenseComponent,
-            canActivate: [CanActivateRouteGuard]
-	},
-	{
-		path: 'expenses/all',
-		component: ExpenseListComponent,
-            canActivate: [CanActivateRouteGuard]
-	},
-	{
-		path: 'expenses/:id',
-		component: ViewExpenseComponent,
-            canActivate: [CanActivateRouteGuard]
+		canActivate: [CanActivateRouteGuard]
 	},
 
 	// Bank
 	{
 		path: 'bank',
 		component: BankComponent,
-            canActivate: [CanActivateRouteGuard]
+		canActivate: [CanActivateRouteGuard]
 	},
 
 	// Contacts
 	{
-		path: 'contacts/new',
-		component: NewContactComponent,
-            canActivate: [CanActivateRouteGuard]
+		path: 'contacts',
+		loadChildren: './contacts/contacts.module#ContactsModule',
+		canActivate: [CanActivateRouteGuard]
 	},
+
+	// Expenses
 	{
-		path: 'contacts/all',
-		component: ContactListComponent,
-            canActivate: [CanActivateRouteGuard]
-	},
-	{
-		path: 'contacts/:id',
-		component: ViewContactComponent,
-            canActivate: [CanActivateRouteGuard]
+		path: 'expenses',
+		loadChildren: './expenses/expenses.module#ExpensesModule',
+		canActivate: [CanActivateRouteGuard]
 	},
 
 	// Invoices
 	{
 		path: 'invoices',
-		loadChildren: './invoices/invoices.module#InvoicesModule'
+		loadChildren: './invoices/invoices.module#InvoicesModule',
+		canActivate: [CanActivateRouteGuard]
 	},
 
 	// Documents
 	{
 		path: 'documents',
 		component: DocumentsComponent,
-            canActivate: [CanActivateRouteGuard]
+		canActivate: [CanActivateRouteGuard]
 	}
 ]
 

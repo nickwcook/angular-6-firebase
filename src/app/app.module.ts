@@ -10,6 +10,9 @@ import { InvoicesModule } from '@app/invoices/invoices.module';
 import { BankModule } from '@app/bank/bank.module';
 import { DocumentsModule } from '@app/documents/documents.module';
 
+// APP ROUTING MODULE
+import { AppRoutingModule } from './app-routing.module';
+
 // MATERIAL MODULE
 import { MaterialModule } from '@app/material.module';
 
@@ -26,7 +29,7 @@ import { DashboardComponent } from './dashboard/dashboard.component'
 	import { VerifyEmailDialogComponent } from './register/dialogs/verify-email-dialog/verify-email-dialog.component';
 
 	// Notifications
-	import { NotificationsComponent } from './notifications/notifications/notifications.component';
+	import { NotificationsComponent } from './notifications/notifications.component';
 
 @NgModule({
 	
@@ -57,6 +60,9 @@ import { DashboardComponent } from './dashboard/dashboard.component'
 		ExpensesModule,
 		BankModule,
 		DocumentsModule,
+
+		// APP ROUTING MODULE
+		AppRoutingModule,
 
 		// MATERIAL MODULE
 		MaterialModule,

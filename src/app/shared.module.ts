@@ -6,7 +6,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // ROUTING
-import { AppRoutingModule } from './app-routing.module';
+// import { AppRoutingModule } from './app-routing.module';
 import { RouterLinkActive, CanActivate } from '@angular/router';
 import { CanActivateRouteGuard } from './can-activate-route.guard';
 
@@ -73,7 +73,7 @@ import { UserService } from './services/user.service';
 		ReactiveFormsModule,
 
 		// ROUTING
-		AppRoutingModule,
+		// AppRoutingModule,
 
 		// HTTP
 		HttpModule,
@@ -100,7 +100,7 @@ import { UserService } from './services/user.service';
 		ReactiveFormsModule,
 
 		// ROUTING
-		AppRoutingModule,
+		// AppRoutingModule,
 
 		// HTTP
 		HttpModule,

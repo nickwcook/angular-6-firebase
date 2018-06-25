@@ -16,7 +16,7 @@ import { NotificationsService } from './services/notifications.service';
 import { UserService } from './services/user.service';
 import { TaxCodesService } from './services/tax-codes.service';
 
-import { NotificationsComponent } from './notifications/notifications/notifications.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 @Component({
 	selector: 'app-root',
