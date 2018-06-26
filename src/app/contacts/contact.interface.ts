@@ -3,9 +3,8 @@ export interface Contact {
     contactId: number;
     name: string;
     address: {
-        buildingName: string;
-        buildingNumber: number;
-        streetName: string;
+        addressLine1: string;
+        addressLine2: string;
         townCity: string;
         county: string;
         postcode: string;
@@ -16,7 +15,7 @@ export interface Contact {
     secondaryEmail: string;
     bank: {
         bankName: string;
-		bankRef: string;
+		bankReference: string;
         accountNumber: string;
         sortCode: string;
     };

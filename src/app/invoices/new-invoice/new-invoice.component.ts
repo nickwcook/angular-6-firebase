@@ -21,6 +21,7 @@ import { Expense } from '@app/expenses/expense.interface';
 import { Invoice } from '../invoice.interface';
 import { InvoiceItem } from '../invoice-item.interface';
 
+import { NewContactDialogComponent } from './dialogs/new-contact-dialog/new-contact-dialog.component';
 import { NewItemDialogComponent } from '../dialogs/new-item-dialog/new-item-dialog.component';
 
 import { TaxCodesService } from '@app/services/tax-codes.service';
@@ -83,6 +84,8 @@ export class NewInvoiceComponent implements OnInit {
 
 	minDate = moment().subtract(1, 'year');
 	maxDate = moment();
+
+	newContactDialogRef: MatDialogRef<NewContactDialogComponent>;
 
 	constructor(private router: Router, private authService: AuthService, private notifService: NotificationsService, private contactsService: ContactsService, private expensesService: ExpensesService, private invoicesService: InvoicesService, public taxCodesService: TaxCodesService, private db: AngularFirestore, private formBuilder: FormBuilder, public dialog: MatDialog) {
 		this.contacts$ = this.contactsService.contactsCollection.valueChanges();
@@ -164,8 +167,25 @@ export class NewInvoiceComponent implements OnInit {
 		return this.taxCodes$;
 	}
 	
-	addContact() {
-		console.log('addContact()');
+	newContact() {
+		console.log('NewInvoice.newContact()');
+
+		this.newContactDialogRef = this.dialog.open(NewContactDialogComponent, {
+			hasBackdrop: true,
+			data: {
+				numberOfContacts: this.contacts.length
+			}
+		})
+
+		this.newContactDialogRef.afterClosed().subscribe(contact => {
+			if (contact) {
+				this.selectedContactId = contact.id;
+				this.selectedContact = contact;
+			} else {
+				this.selectedContactId = this.contacts[0].id;
+				this.getSelectedContact();
+			}
+		})
 	}
 	
 	getSelectedContact() {

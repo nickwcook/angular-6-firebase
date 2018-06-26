@@ -7,6 +7,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
 
 import * as moment from 'moment';
+import { isEqual } from 'lodash';
 
 import { AngularFireDatabase, snapshotChanges } from 'angularfire2/database';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
@@ -26,8 +27,6 @@ import { NewItemDialogComponent } from '../dialogs/new-item-dialog/new-item-dial
 
 import { TaxCodesService } from '@app/services/tax-codes.service';
 import { ExpensesService } from '@app/services/expenses.service';
-
-import { isEqual } from 'lodash';
 
 @Component({
   selector: 'app-edit-invoice',
@@ -236,7 +235,6 @@ export class EditInvoiceComponent implements OnInit {
 	// INVOICE ACTIONS
 
 	cancel() {
-		// TODO: Dialog if changesMade - Confirm cancellation to discard changes
 		this.invoice = this.initModel;
 		this.router.navigateByUrl(`/invoices/${this.invoice.id}`);
 	}

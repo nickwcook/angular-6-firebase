@@ -11,6 +11,8 @@ import { MaterialModule } from '@app/material.module';
 	import { NewItemDialogComponent } from './dialogs/new-item-dialog/new-item-dialog.component';
 	// New Invoice
 	import { NewInvoiceComponent } from './new-invoice/new-invoice.component';
+		// Dialogs
+		import { NewContactDialogComponent } from './new-invoice/dialogs/new-contact-dialog/new-contact-dialog.component';
 	// Invoice List
 	import { InvoiceListComponent } from './invoice-list/invoice-list.component';
 	// View Invoice
@@ -26,7 +28,6 @@ import { MaterialModule } from '@app/material.module';
 	import { EditInvoiceComponent } from './edit-invoice/edit-invoice.component';
 		// Dialogs
 		import { EditReferenceDialogComponent } from './edit-invoice/dialogs/edit-reference-dialog/edit-reference-dialog.component';
-		import { CancelChangesDialogComponent } from './edit-invoice/dialogs/cancel-changes-dialog/cancel-changes-dialog.component';
 
 @NgModule({
 
@@ -52,23 +53,24 @@ import { MaterialModule } from '@app/material.module';
 			EditInvoiceComponent,
 				// Dialogs
 				EditReferenceDialogComponent,
-				CancelChangesDialogComponent,
 
 		// DIRECTIVES
 		DownloadInvoicePdfDirective,
 		EmailInvoiceDirective,
 		DuplicateInvoiceDirective,
+		NewContactDialogComponent,
 	],
 	
 	entryComponents: [
 		// DIALOGS
 			NewItemDialogComponent,
+			// New Invoice
+			NewContactDialogComponent,
 			// View Invoice
 			NewPaymentDialogComponent,
 			DeleteInvoiceDialogComponent,
 			// Edit Invoice
-			EditReferenceDialogComponent,
-			CancelChangesDialogComponent
+			EditReferenceDialogComponent
 	]
 })
 

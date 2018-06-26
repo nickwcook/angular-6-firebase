@@ -44,9 +44,9 @@
 			
 			<div fxLayout="column" fxLayoutGap="0">
 			
-				<p *ngIf="contact.address.buildingName.length">{{contact.address.buildingName}}</p>
+				<p>{{contact.address.addressLine1}}</p>
 			
-				<p>{{contact.address.buildingNumber}} {{contact.address.streetName}}</p>
+				<p *ngIf="contact.address.addressLine2.length">{{contact.address.addressLine2}}</p>
 
 				<p>{{contact.address.townCity}}</p>
 
@@ -92,9 +92,9 @@
 			
 			<div fxLayout="column" fxLayoutGap="0">
 			
-				<p>{{contact.bank.bankName}}</p>
+				<p>Bank/Building Society Name: {{contact.bank.bankName}}</p>
 				
-				<p>Reference: {{contact.bank.bankRef ? contact.bank.bankRef : 'HFX12345'}}</p>
+				<p>Reference: {{contact.bank.bankReference}}</p>
 			
 				<p>Account Number: {{contact.bank.accountNumber}}</p>
 			

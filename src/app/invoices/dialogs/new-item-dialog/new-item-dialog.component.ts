@@ -56,7 +56,7 @@ export class NewItemDialogComponent implements OnInit {
       total: +total.toFixed(2)
     }
 
-    console.log('addItem():', this.item);
+    console.log('NewItemDialog.addItem():', this.item);
 
     this.dialogRef.close(this.item);
   }
