@@ -101,11 +101,12 @@ export class NewInvoiceComponent implements OnInit {
 				data => {
 					this.contacts = data;
 					console.log('NewInvoice.contacts:', data);
-
-					this.selectedContactId = this.contacts[0].id;
-					console.log(`selectedContactId: ${this.selectedContactId}`);
-
-					this.getSelectedContact();
+					
+					if (this.contacts.length) {
+						this.selectedContactId = this.contacts[0].id;
+						console.log(`selectedContactId: ${this.selectedContactId}`);
+						this.getSelectedContact();
+					}
 				},
 				error => {
 					console.error(`NewInvoice - Error getting contacts via subscribe() method: ${error}`);
@@ -189,10 +190,12 @@ export class NewInvoiceComponent implements OnInit {
 	}
 	
 	getSelectedContact() {
-		this.contactsService.contactsCollection.doc(this.selectedContactId).ref.get().then(snapshot => {
-			this.selectedContact = snapshot.data() as Contact;
-			console.log('selectedContact:', this.selectedContact);
-		})
+		if (this.selectedContactId) {
+			this.contactsService.contactsCollection.doc(this.selectedContactId).ref.get().then(snapshot => {
+				this.selectedContact = snapshot.data() as Contact;
+				console.log(`NewInvoice.selectedContact: ${this.selectedContactId}`, this.selectedContact);
+			})
+		}
 	}
 
 

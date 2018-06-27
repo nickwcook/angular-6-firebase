@@ -22,3 +22,24 @@ body {
 .height-100vh {
 	height: 100vh;
 }
+
+.fill-height-container {
+	display: flex;
+	flex-direction: column;
+	min-height: 100%;
+}
+
+.fill-width-container {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+}
+
+.fill-height-container,
+.fill-width-container {
+
+	.mat-card,
+	.mat-table {
+		flex-grow: 1;
+	}
+}

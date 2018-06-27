@@ -26,9 +26,7 @@ export class ExpenseListComponent implements OnInit, AfterViewInit {
         'description', 
         'category', 
         'type', 
-        'nominal', 
-        'value',
-        'tax', 
+        'nominal',
         'total' 
     ];
 

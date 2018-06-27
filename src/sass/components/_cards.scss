@@ -1,8 +1,9 @@
-mat-card {
-    
-    &.page-card {
-        // margin-bottom: 25px;
-	}
+mat-card,
+.mat-card {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	flex-shrink: 0;
 
 	.mat-card-header {
 
@@ -22,14 +23,19 @@ mat-card {
 	}
 
 	.mat-card-content {
+		display: flex;
+		flex: 1;
+
 		p {
 			font-size: 13px;
 		}
 	}
 	
 	mat-card-actions {
+		margin-top: 50px;
 		
-		button, .mat-button {
+		button,
+		.mat-button {
 			font-size: 14px;
 			font-weight: 400;
 		}
